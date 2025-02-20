@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.GameplayObjects.Balls;
+using Assets.Infrastructure.Factories;
+using GameCore.ScriptableObjects;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+
+    private void SetupGameplayScene()
     {
-        
+        var assetRefs = Resources.Load<AssetRefsScriptableObject>("AssetRefs");
+        var factoriesManager = new FactoriesManager();
+        factoriesManager.Init(assetRefs);
+        var ballSpawner = FindObjectOfType<BallSpawner>();
+        ballSpawner.Init(factoriesManager);
     }
 }

@@ -1,14 +1,14 @@
-﻿using Assets.Scripts.Utility;
-using UnityEngine;
+﻿//using Assets.Scripts.Utility;
+//using UnityEngine;
 
-namespace GameCore.Factories
-{
-    public class GenericObjectFactory : BaseGameObjectFactory
-    {
+//namespace GameCore.Factories
+//{
+//    public class GenericObjectFactory : BaseGameObjectFactory
+//    {
         
-        public override GameObject Create()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-}
+//        public override GameObject Create()
+//        {
+//            throw new System.NotImplementedException();
+//        }
+//    }
+//}
