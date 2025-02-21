@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Assets.Scripts.Utility;
+using System;
 using System.Collections.Generic;
 
-namespace Assets.Scripts.Utility
+namespace Assets.Infrastructure.Events
 {
     public enum TypeOfEvent
     {
-        GameStart, GameEnd, Error
+        BallClick,
     }
 
     public class EventManager

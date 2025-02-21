@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BallParameters
   m_EditorClassIdentifier: 
   _colors:
-  - {r: 1, g: 0.2999999, b: 0.2999999, a: 0}
-  - {r: 0.6065494, g: 1, b: 0.1566037, a: 0}
-  - {r: 0.33773577, g: 1, b: 0.8929632, a: 0}
-  - {r: 0.2320754, g: 0.5184843, b: 1, a: 0}
-  - {r: 0.94833094, g: 0.26981127, b: 1, a: 0}
+  - {r: 1, g: 0.2999999, b: 0.2999999, a: 1}
+  - {r: 0.6065494, g: 1, b: 0.1566037, a: 1}
+  - {r: 0.2320754, g: 0.30203494, b: 1, a: 1}
+  - {r: 0.93664837, g: 0.23137254, b: 1, a: 1}
+  _startingLevelBallCount: 40
+  _sameTypeProbability: 0.5

@@ -1,18 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.GameplayObjects.Balls;
+using Assets.Infrastructure.Events;
+using Events;
 using UnityEngine;
 
-public class NormalBall : MonoBehaviour
+[RequireComponent(typeof(CircleCollider2D))]
+public class NormalBall : BaseBall
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnMouseDown()
     {
-        
+        EventManager.Instance.Publish(TypeOfEvent.BallClick, new BallClickEventParams(this));
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Init(int type, Color color)
     {
-        
+        _type = type;
+        _spriteRenderer.color = color;
+    }
+
+    public override void ReturnToPool()
+    {
+        SendToPoolCB?.Invoke(gameObject);
     }
 }

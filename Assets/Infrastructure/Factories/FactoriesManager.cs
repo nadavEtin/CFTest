@@ -21,28 +21,29 @@ namespace Assets.Infrastructure.Factories
         public void Init(AssetRefsScriptableObject assetRefs)
         {
             _assetRefs = assetRefs;
-        }
-
-        private void Awake()
-        {
-            //FOR TESTING
-            _assetRefs = Resources.Load<AssetRefsScriptableObject>("AssetRefs");
             InitializeFactories();
         }
+
+        //private void Awake()
+        //{
+        //    //FOR TESTING
+        //    _assetRefs = Resources.Load<AssetRefsScriptableObject>("AssetRefs");
+        //    InitializeFactories();
+        //}
 
         private void InitializeFactories()
         {
             factories = new Dictionary<FactoryType, IGameObjectFactory>
             {
-                { FactoryType.NormalBall, new BallFactory(this, _assetRefs.NormalBallPrefab) }                
+                { FactoryType.NormalBall, new BallFactory(/*this,*/ _assetRefs.NormalBallPrefab) }                
             };
         }
 
-        public GameObject GetObject(FactoryType factoryType)
+        public GameObject[] GetObject(FactoryType factoryType, int amount)
         {
             if (factories.TryGetValue(factoryType, out var factory))
             {
-                return factory.Create();
+                return factory.Create(amount);
             }
             else
             {

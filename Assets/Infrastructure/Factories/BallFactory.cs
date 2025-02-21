@@ -1,20 +1,30 @@
-﻿using GameCore.Factories;
-using GameCore.ScriptableObjects;
+﻿using Assets.Infrastructure.ObjectPool;
+using GameCore.Factories;
 using UnityEngine;
 
 namespace Assets.Infrastructure.Factories
 {
     public class BallFactory : BaseGameObjectFactory
     {
-        //private GameObject normalBallPrefab;
-
-        public BallFactory(MonoBehaviour context, GameObject assetPrefab) : base(context, assetPrefab)
+        public BallFactory(GameObject assetPrefab) : base(assetPrefab)
         {
         }
 
-        public override GameObject Create()
+        public override GameObject[] Create(int amount)
         {
-            return Object.Instantiate(prefab);
+            var objects = new GameObject[amount];
+            for (int i = 0; i < amount; i++)
+            {
+                if (objectPool.Count > 0)
+                    objects[i] = objectPool.GetObjectFromPool();
+                else
+                {
+                    objects[i] = Object.Instantiate(prefab);
+                    objects[i].GetComponent<IPooledObject>().SendToPoolCB = objectPool.AddObjectToPool;
+                }
+
+            }
+            return objects;
         }
     }
 }

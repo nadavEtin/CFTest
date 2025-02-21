@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5792943342894280691}
   - component: {fileID: 7493430596376413397}
   - component: {fileID: 2000993241504174780}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: normalBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4e567e8e2cfe348843d442d8c7dd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 5792943342894280691}
+  _collider: {fileID: 2000993241504174780}
 --- !u!212 &5792943342894280691
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,7 +116,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -122,9 +124,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &2000993241504174780
 CircleCollider2D:
