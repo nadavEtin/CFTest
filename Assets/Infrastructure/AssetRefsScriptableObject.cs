@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameCore.ScriptableObjects
+namespace Assets.Infrastructure
 {
     [CreateAssetMenu(fileName = "AssetRefs", menuName = "ScriptableObjects/Asset References")]
     public class AssetRefsScriptableObject : ScriptableObject

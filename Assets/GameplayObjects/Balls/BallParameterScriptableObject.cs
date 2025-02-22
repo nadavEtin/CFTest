@@ -14,9 +14,28 @@ public class BallParameterScriptableObject : ScriptableObject
     public int StartingLevelBallCount => _startingLevelBallCount;
     public List<Color> Colors => _colors;
 
-    //public Color Color1 => _colors.Count > 0 ? _colors[0] : default;
-    //public Color Color2 => _colors.Count > 1 ? _colors[1] : default;
-    //public Color Color3 => _colors.Count > 2 ? _colors[2] : default;
-    //public Color Color4 => _colors.Count > 3 ? _colors[3] : default;
-    //public Color Color5 => _colors.Count > 4 ? _colors[4] : default;
+    private List<NormalBallType> _cachedNormalBallTypes;
+
+    public List<NormalBallType> NormalBallTypes
+    {
+        get
+        {
+            if (_cachedNormalBallTypes == null)
+            {
+                _cachedNormalBallTypes = new List<NormalBallType>();
+                for (int i = 0; i < _colors.Count; i++)
+                {
+                    _cachedNormalBallTypes.Add(new NormalBallType { Type = i, Color = _colors[i] });
+                }
+            }
+            return _cachedNormalBallTypes;
+        }
+    }
+
+}
+
+public struct NormalBallType
+{
+    public int Type;
+    public Color Color;
 }

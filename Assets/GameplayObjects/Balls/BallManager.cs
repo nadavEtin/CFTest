@@ -1,4 +1,5 @@
 ﻿using Assets.Infrastructure.Events;
+using Assets.Infrastructure.ObjectPool;
 using Assets.Scripts.Utility;
 using Events;
 using System.Collections;
@@ -67,7 +68,7 @@ namespace Assets.GameplayObjects.Balls
             return neighbors;
         }
 
-        public void OnBallClicked(BaseEventParams eventParams)
+        private void OnBallClicked(BaseEventParams eventParams)
         {
             var clickedBall = ((BallClickEventParams)eventParams).Ball;
             HashSet<INormalBall> connected = GetConnectedBalls(clickedBall);
@@ -76,10 +77,28 @@ namespace Assets.GameplayObjects.Balls
             {
                 foreach (INormalBall ball in connected)
                 {
-                    // Consider using object pooling instead of Destroy
-
+                    //ADD FX HERE
+                    RemoveBall(ball);
                 }
+
+                //ADD SCORE HERE
+                //create new balls to replace removed ones
+                EventManager.Instance.Publish(TypeOfEvent.SpawnNewBalls, new SpawnNewBallsEventParams(connected.Count));
             }
+        }
+
+        private void RemoveBall(INormalBall ball)
+        {
+            var ballObject = ball.Collider.gameObject;
+            if (ballObject.GetComponent<IPooledObject>() != null)
+            {
+                ballObject.SetActive(false);
+                ballObject.transform.position = new Vector2(100, 0);    //move ball away from the scene to avoid unexpected errors
+                ballObject.GetComponent<IPooledObject>().ReturnToPool();
+            }
+            else
+                GameObject.Destroy(ballObject);
+
         }
 
         private IEnumerator ExplodeBall(INormalBall ball)

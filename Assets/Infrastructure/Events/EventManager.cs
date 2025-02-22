@@ -7,6 +7,7 @@ namespace Assets.Infrastructure.Events
     public enum TypeOfEvent
     {
         BallClick,
+        SpawnNewBalls,
     }
 
     public class EventManager

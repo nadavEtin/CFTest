@@ -15,6 +15,6 @@ namespace GameCore.Factories
             objectPool = new BallObjectPool();
         }
 
-        public abstract GameObject[] Create(int amount);
+        public abstract GameObject[] Create(int amount, Transform parent = null);
     }
 }

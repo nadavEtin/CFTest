@@ -2,7 +2,6 @@
 using System.Collections;
 using GameCore.Factories;
 using System.Collections.Generic;
-using GameCore.ScriptableObjects;
 using System;
 
 namespace Assets.Infrastructure.Factories
@@ -13,8 +12,8 @@ namespace Assets.Infrastructure.Factories
 
     }
 
-    public class FactoriesManager : MonoBehaviour
-	{
+    public class FactoriesManager : MonoBehaviour, IFactoriesManager
+    {
         private AssetRefsScriptableObject _assetRefs;
         private Dictionary<FactoryType, IGameObjectFactory> factories;
 
@@ -35,11 +34,11 @@ namespace Assets.Infrastructure.Factories
         {
             factories = new Dictionary<FactoryType, IGameObjectFactory>
             {
-                { FactoryType.NormalBall, new BallFactory(/*this,*/ _assetRefs.NormalBallPrefab) }                
+                { FactoryType.NormalBall, new BallFactory(/*this,*/ _assetRefs.NormalBallPrefab) }
             };
         }
 
-        public GameObject[] GetObject(FactoryType factoryType, int amount)
+        public GameObject[] GetObject(FactoryType factoryType, int amount, Transform parent = null)
         {
             if (factories.TryGetValue(factoryType, out var factory))
             {
@@ -49,7 +48,7 @@ namespace Assets.Infrastructure.Factories
             {
                 Debug.LogError($"Factory of type {factoryType} not found");
                 return null;
-            }                
+            }
         }
     }
 }

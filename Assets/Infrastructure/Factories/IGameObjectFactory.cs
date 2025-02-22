@@ -5,6 +5,6 @@ namespace GameCore.Factories
 {
     public interface IGameObjectFactory
     {
-        GameObject[] Create(int amount);
+        GameObject[] Create(int amount, Transform parent = null);
     }
 }

@@ -1,4 +1,8 @@
-﻿using Assets.Infrastructure.Factories;
+﻿using Assets.Infrastructure.Events;
+using Assets.Infrastructure.Factories;
+using Assets.Scripts.Utility;
+using Events;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.GameplayObjects.Balls
@@ -7,24 +11,27 @@ namespace Assets.GameplayObjects.Balls
     {
         [SerializeField] private Transform _newBallSpawnPoint, _levelStartSpawnPoint;
 
-        private FactoriesManager _factoriesManager;
+        private IFactoriesManager _factoriesManager;
         private BallParameterScriptableObject _ballParams;
+        private List<NormalBallType> _normalBallTypes;
 
         private float _sameTypeProbability;
-        private int _lastAssignedType;
+        private NormalBallType? _lastAssignedType = null;
 
-        public void Init(FactoriesManager factoriesManager, BallParameterScriptableObject ballParams)
+        public void Init(IFactoriesManager factoriesManager, BallParameterScriptableObject ballParams)
         {
             _factoriesManager = factoriesManager;
             _ballParams = ballParams;
+            _normalBallTypes = _ballParams.NormalBallTypes;
+            EventManager.Instance.Subscribe(TypeOfEvent.SpawnNewBalls, SpawnBalls);
             LevelStartSpawnBalls(_ballParams.StartingLevelBallCount);
         }
 
         public void LevelStartSpawnBalls(int ballAmount)
         {
-            var spawnRadius = 1f;
+            var spawnRadius = 0.5f;
             _sameTypeProbability = _ballParams.SameTypeProbability;
-            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, ballAmount);
+            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, ballAmount, transform);
             for (int i = 0; i < newBalls.Length; i++)
             {
                 //small offset to prevent balls from stacking
@@ -36,14 +43,18 @@ namespace Assets.GameplayObjects.Balls
             }
         }
 
-        public void SpawnBalls(int numberOfBalls)
+        public void SpawnBalls(BaseEventParams eventParams)
         {
+            var numberOfBalls = ((SpawnNewBallsEventParams)eventParams).BallAmount;
             _sameTypeProbability = _ballParams.SameTypeProbability;
-            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, numberOfBalls);
+            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, numberOfBalls, transform);
             var ballHeight = newBalls[0].GetComponent<Renderer>().bounds.size.y;
             for (int i = 0; i < newBalls.Length; i++)
             {
+                //small offset to prevent balls from stacking
                 var randomVariation = Random.Range(-0.25f, 0.25f);
+
+                NewBallSetup(newBalls[i], i);
                 newBalls[i].transform.position = _newBallSpawnPoint.position +
                     new Vector3(randomVariation, i * ballHeight, 0);
             }
@@ -53,24 +64,33 @@ namespace Assets.GameplayObjects.Balls
         {
             var normalBall = ball.GetComponent<INormalBall>();
             var ballType = GetBiasedType(index);
-            var ballColor = _ballParams.Colors[ballType];
-            normalBall.Init(ballType, ballColor);
+            normalBall.Init(ballType.Type, ballType.Color);
             return ball;
         }
 
-        private int GetBiasedType(int index)
+        private NormalBallType GetBiasedType(int index)
         {
-            if (index == 0 || Random.value < _sameTypeProbability)
+            if (index == 0 || Random.value > _sameTypeProbability)
             {
                 return GetRandomType();
             }
-            return _lastAssignedType;
+            return _lastAssignedType.Value;
         }
 
-        private int GetRandomType()
+        //force the next ball to be different from the last one
+        private NormalBallType GetRandomType()
         {
-            _lastAssignedType = Random.Range(0, _ballParams.Colors.Count);
-            return _lastAssignedType;
+            List<NormalBallType> availableTypes = new List<NormalBallType>(_normalBallTypes);
+            if (_lastAssignedType.HasValue)            
+                availableTypes.Remove(_lastAssignedType.Value);
+            
+            _lastAssignedType = availableTypes[Random.Range(0, availableTypes.Count)];
+            return _lastAssignedType.Value;
+        }
+
+        private void OnDestroy()
+        {            
+            EventManager.Instance.Unsubscribe(TypeOfEvent.SpawnNewBalls, SpawnBalls);
         }
     }
 }
