@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2658490921975975747}
   - component: {fileID: 3958644640606992391}
+  - component: {fileID: 952989869484173970}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,5 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8e42c8c94e06c4ba3be8232c1e825e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
   _assetRefs: {fileID: 11400000, guid: 1dc2be17d20ba6a408f4e4cf975abfe3, type: 2}
-  _ballParameter: {fileID: 11400000, guid: 0ff7ddfa38392794b99521af8a38cebc, type: 2}
+  _ballParameters: {fileID: 11400000, guid: 0ff7ddfa38392794b99521af8a38cebc, type: 2}
+  _gameRules: {fileID: 11400000, guid: 9edf64ade3dff1c4f8ae2f8c4447783e, type: 2}
+--- !u!114 &952989869484173970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2154172660287965257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bebffb9ac0f6ff4a802752064cb17fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameRules: {fileID: 11400000, guid: 9edf64ade3dff1c4f8ae2f8c4447783e, type: 2}

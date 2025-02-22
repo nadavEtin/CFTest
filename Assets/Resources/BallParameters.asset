@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535cfeac343771c4b93bd9ec70696cd7, type: 3}
   m_Name: BallParameters
   m_EditorClassIdentifier: 
+  ChosenDifficulty: 0
   _colors:
   - {r: 1, g: 0.2999999, b: 0.2999999, a: 1}
   - {r: 0.6065494, g: 1, b: 0.1566037, a: 1}
   - {r: 0.2320754, g: 0.30203494, b: 1, a: 1}
   - {r: 0.93664837, g: 0.23137254, b: 1, a: 1}
   _startingLevelBallCount: 35
-  _sameTypeProbability: 0.3
+  _minConnectedCountForMatch: 0
+  _sameTypeProbability: 0.5

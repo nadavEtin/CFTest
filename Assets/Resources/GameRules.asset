@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b220079bc0ac3d44b149bcef62bb6d5, type: 3}
   m_Name: GameRules
   m_EditorClassIdentifier: 
-  _levelTime: 0
-  _targetScore: 0
-  _maxTaps: 0
+  _timeLimit: 30
+  _targetScore: 50
+  _maxMoves: 20

@@ -12,13 +12,13 @@ namespace Assets.GameplayObjects.Balls
         [SerializeField] private Transform _newBallSpawnPoint, _levelStartSpawnPoint;
 
         private IFactoriesManager _factoriesManager;
-        private BallParameterScriptableObject _ballParams;
+        private BallParametersScriptableObject _ballParams;
         private List<NormalBallType> _normalBallTypes;
 
         private float _sameTypeProbability;
         private NormalBallType? _lastAssignedType = null;
 
-        public void Init(IFactoriesManager factoriesManager, BallParameterScriptableObject ballParams)
+        public void Init(IFactoriesManager factoriesManager, BallParametersScriptableObject ballParams)
         {
             _factoriesManager = factoriesManager;
             _ballParams = ballParams;

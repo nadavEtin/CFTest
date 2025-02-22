@@ -6,8 +6,16 @@ namespace Assets.Infrastructure.Events
 {
     public enum TypeOfEvent
     {
-        BallClick,
+        GameStart,
+        GameOver,
+
+        
         SpawnNewBalls,
+        MovesOver,
+        BallClick,
+        TimeUpdate,
+        TimeUp,
+        ScoreUpdate,
     }
 
     public class EventManager

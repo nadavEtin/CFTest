@@ -1,24 +1,29 @@
 using Assets.GameplayObjects.Balls;
+using Assets.GameRules;
 using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using Assets.Scripts.Utility;
-using Events;
+using Assets.Scripts.Utility.Events;
+using GameCore.UI;
 using UnityEngine;
 
 namespace Assets.Infrastructure
 {
+    [RequireComponent(typeof(IRulesTracker))]
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private GameObject _canvas;
         [SerializeField] private AssetRefsScriptableObject _assetRefs;
-        [SerializeField] private BallParameterScriptableObject _ballParameter;
+        [SerializeField] private BallParametersScriptableObject _ballParameters;
+        [SerializeField] private GameRulesScriptableObject _gameRules;
 
+        private IRulesTracker _rulesTracker;
         private BallManager _ballManager;
 
 
         //FOR TESTING
-        private bool showCircle;
-        Vector3 circlePosition;
-        float circleRadius;
+        //private bool showCircle;
+        //Vector3 circlePosition;
+        //float circleRadius;
 
         private void Awake()
         {
@@ -26,15 +31,19 @@ namespace Assets.Infrastructure
             //EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
 
             SetupGameplayScene();
+            EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
         }
 
         private void SetupGameplayScene()
         {
+            _canvas.AddComponent<UIManager>().Init(_assetRefs, _gameRules.MaxMoves, _gameRules.TimeLimit);
             var _factoriesManager = Instantiate(_assetRefs.FactoriesManager).GetComponent<FactoriesManager>();
             _factoriesManager.Init(_assetRefs);
             var _ballSpawner = Instantiate(_assetRefs.BallSpawner).GetComponent<BallSpawner>();
-            _ballSpawner.Init(_factoriesManager, _ballParameter);
-            _ballManager = new BallManager();
+            _ballSpawner.Init(_factoriesManager, _ballParameters);
+            _ballManager = new BallManager(_ballParameters);
+            _rulesTracker = GetComponent<IRulesTracker>();
+            _rulesTracker.Init(_gameRules);
         }
 
 

@@ -7,12 +7,12 @@ namespace Assets.GameRules
     public class GameRulesScriptableObject : ScriptableObject
 	{
 
-        [SerializeField] private float _timeLimit;
+        [SerializeField] private int _timeLimit;
         [SerializeField] private int _targetScore;
-        [SerializeField] private int _maxTaps;
+        [SerializeField] private int _maxMoves;
 
-        public float TimeLimit => _timeLimit;
+        public int TimeLimit => _timeLimit;
         public int TargetScore => _targetScore;
-        public int MaxTaps => _maxTaps;
+        public int MaxMoves => _maxMoves;
     }
 }

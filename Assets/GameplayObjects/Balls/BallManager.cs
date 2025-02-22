@@ -10,11 +10,12 @@ namespace Assets.GameplayObjects.Balls
 {
     public class BallManager
     {
+        private BallParametersScriptableObject _ballParameters;
 
-
-        public BallManager()
+        public BallManager(BallParametersScriptableObject ballParameters)
         {
             EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
+            _ballParameters = ballParameters;
         }
 
         private HashSet<INormalBall> GetConnectedBalls(INormalBall startBall)
@@ -81,8 +82,10 @@ namespace Assets.GameplayObjects.Balls
                     RemoveBall(ball);
                 }
 
-                //ADD SCORE HERE
-                //create new balls to replace removed ones
+                var score = _ballParameters.CalculateScore(connected.Count);
+                EventManager.Instance.Publish(TypeOfEvent.ScoreUpdate, new ScoreUpdateEventParams(score));
+
+                //replace removed balls
                 EventManager.Instance.Publish(TypeOfEvent.SpawnNewBalls, new SpawnNewBallsEventParams(connected.Count));
             }
         }
