@@ -7,12 +7,12 @@ namespace GameCore.Factories
     public abstract class BaseGameObjectFactory : IGameObjectFactory
     {
         protected readonly GameObject prefab;
-        protected BallObjectPool objectPool;
+        protected ObjectPool objectPool;
 
         protected BaseGameObjectFactory(GameObject prefab)
         {
             this.prefab = prefab;
-            objectPool = new BallObjectPool();
+            objectPool = new ObjectPool();
         }
 
         public abstract GameObject[] Create(int amount, Transform parent = null);

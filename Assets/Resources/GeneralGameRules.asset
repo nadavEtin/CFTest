@@ -10,8 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b220079bc0ac3d44b149bcef62bb6d5, type: 3}
-  m_Name: GameRules
+  m_Name: GeneralGameRules
   m_EditorClassIdentifier: 
-  _timeLimit: 30
-  _targetScore: 50
-  _maxMoves: 20
+  _easyTimeLimit: 40
+  _easyTargetScore: 300
+  _easyMaxMoves: 30
+  _normalTimeLimit: 30
+  _normalTargetScore: 400
+  _normalMaxMoves: 20
+  _hardTimeLimit: 15
+  _hardTargetScore: 500
+  _hardMaxMoves: 15
+  TimeLimit: 40
+  TargetScore: 300
+  MaxMoves: 30
+  _currentDifficulty: 0

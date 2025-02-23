@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 535cfeac343771c4b93bd9ec70696cd7, type: 3}
-  m_Name: BallParameters
+  m_Name: BallRelatedParameters
   m_EditorClassIdentifier: 
   ChosenDifficulty: 0
   _colors:
@@ -19,5 +19,8 @@ MonoBehaviour:
   - {r: 0.2320754, g: 0.30203494, b: 1, a: 1}
   - {r: 0.93664837, g: 0.23137254, b: 1, a: 1}
   _startingLevelBallCount: 35
-  _minConnectedCountForMatch: 0
+  _minConnectedCountForMatch: 3
+  _minMatchSizeToSpawnSpecial: 10
+  _normalBallNeighborDetectionRadius: 1.1
+  _specialBallExplosionRadius: 2.5
   _sameTypeProbability: 0.5

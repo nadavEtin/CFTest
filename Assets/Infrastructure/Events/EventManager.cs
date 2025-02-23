@@ -10,7 +10,8 @@ namespace Assets.Infrastructure.Events
         GameOver,
 
         
-        SpawnNewBalls,
+        SpawnNormalBalls,
+        SpawnSpecialBall,
         MovesOver,
         BallClick,
         TimeUpdate,

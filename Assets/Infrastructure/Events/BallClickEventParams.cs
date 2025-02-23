@@ -1,12 +1,12 @@
 ﻿using Assets.Scripts.Utility;
 
-namespace Events
+namespace Assets.Infrastructure.Events
 {
     public class BallClickEventParams : BaseEventParams
     {
-        public INormalBall Ball { get; }
+        public IBaseBall Ball { get; }
 
-        public BallClickEventParams(INormalBall ball)
+        public BallClickEventParams(IBaseBall ball)
         {
             Ball = ball;
         }

@@ -1,5 +1,4 @@
 ﻿using Assets.Infrastructure.Events;
-using Assets.Infrastructure.ObjectPool;
 using Assets.Scripts.Utility;
 using Events;
 using System.Collections;
@@ -11,28 +10,34 @@ namespace Assets.GameplayObjects.Balls
     public class BallManager
     {
         private BallParametersScriptableObject _ballParameters;
+        private int _minConnectedBallsForMatch, _minMatchSizeForSpecialBall;
+        private float _normalBallNeighborDetectionRadius, _specialBallExplosionRadius;
 
         public BallManager(BallParametersScriptableObject ballParameters)
         {
             EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
             _ballParameters = ballParameters;
+            _minConnectedBallsForMatch = _ballParameters.MinConnectedCountForMatch;
+            _minMatchSizeForSpecialBall = _ballParameters.MinMatchSizeToSpawnSpecial;
+            _normalBallNeighborDetectionRadius = _ballParameters.NormalBallNeighborDetectionRadius;
+            _specialBallExplosionRadius = _ballParameters.SpecialBallExplosionRadius;
         }
 
-        private HashSet<INormalBall> GetConnectedBalls(INormalBall startBall)
+        private HashSet<IBaseBall> GetConnectedBalls(IBaseBall startBall, float detectionRadius)
         {
-            HashSet<INormalBall> connectedBalls = new HashSet<INormalBall> { startBall };
-            HashSet<INormalBall> newlyFound = new HashSet<INormalBall> { startBall };
+            HashSet<IBaseBall> connectedBalls = new HashSet<IBaseBall> { startBall };
+            HashSet<IBaseBall> newlyFound = new HashSet<IBaseBall> { startBall };
 
             while (newlyFound.Count > 0)
             {
-                HashSet<INormalBall> nextBatch = new HashSet<INormalBall>();
+                HashSet<IBaseBall> nextBatch = new HashSet<IBaseBall>();
 
-                foreach (INormalBall ball in newlyFound)
+                foreach (IBaseBall ball in newlyFound)
                 {
-                    var neighbors = GetNeighbors(ball);
-                    foreach (INormalBall neighbor in neighbors)
+                    var neighbors = GetNeighbors(ball, detectionRadius);
+                    foreach (IBaseBall neighbor in neighbors)
                     {
-                        if (neighbor.Type == startBall.Type && !connectedBalls.Contains(neighbor))
+                        if (neighbor.BallParameters.Type == startBall.BallParameters.Type && !connectedBalls.Contains(neighbor))
                         {
                             nextBatch.Add(neighbor);
                             connectedBalls.Add(neighbor);
@@ -46,12 +51,12 @@ namespace Assets.GameplayObjects.Balls
             return connectedBalls;
         }
 
-        private HashSet<INormalBall> GetNeighbors(INormalBall ball)
+        private HashSet<IBaseBall> GetNeighbors(IBaseBall ball, float detectionRadius)
         {
-            var neighbors = new HashSet<INormalBall>();
-            float checkRadius = ball.Collider.radius * 1.1f;
+            var neighbors = new HashSet<IBaseBall>();
+            float checkRadius = ball.Collider.radius * detectionRadius;
 
-            Collider2D[] results = new Collider2D[8];
+            Collider2D[] results = new Collider2D[50];
             var numColliders = Physics2D.OverlapCircleNonAlloc(
                 ball.Position,
                 checkRadius,
@@ -61,7 +66,7 @@ namespace Assets.GameplayObjects.Balls
 
             for (int i = 0; i < numColliders; i++)
             {
-                var neighbor = results[i].GetComponent<INormalBall>();
+                var neighbor = results[i].GetComponent<IBaseBall>();
                 if (neighbor != null && neighbor != this)
                     neighbors.Add(neighbor);
             }
@@ -72,39 +77,74 @@ namespace Assets.GameplayObjects.Balls
         private void OnBallClicked(BaseEventParams eventParams)
         {
             var clickedBall = ((BallClickEventParams)eventParams).Ball;
-            HashSet<INormalBall> connected = GetConnectedBalls(clickedBall);
 
-            if (connected.Count >= 3)
+            if(clickedBall.BallParameters.Type == BallTypes.Special)            
+                SpecialBallClicked(clickedBall);            
+            else            
+                NormalBallClicked(clickedBall);
+            
+
+
+        }
+
+        private void NormalBallClicked(IBaseBall clickedBall)
+        {
+            HashSet<IBaseBall> connected = GetConnectedBalls(clickedBall, _normalBallNeighborDetectionRadius);
+            if (connected.Count >= _minConnectedBallsForMatch)
             {
-                foreach (INormalBall ball in connected)
+                //spwn special ball on clicked ball position, if requirements are met
+                if (connected.Count >= _minMatchSizeForSpecialBall)
+                    EventManager.Instance.Publish(TypeOfEvent.SpawnSpecialBall, new SpawnSpecialBallsEventParams(1, new Vector2[] { clickedBall.Position }));
+
+                HandleRemovedBalls(connected);
+                foreach (IBaseBall ball in connected)
                 {
-                    //ADD FX HERE
-                    RemoveBall(ball);
+                    //TO DO: ADD match FX HERE
+                    
                 }
 
-                var score = _ballParameters.CalculateScore(connected.Count);
-                EventManager.Instance.Publish(TypeOfEvent.ScoreUpdate, new ScoreUpdateEventParams(score));
+                //var score = _ballParameters.CalculateScore(connected.Count);
+                //EventManager.Instance.Publish(TypeOfEvent.ScoreUpdate, new ScoreUpdateEventParams(score));
 
-                //replace removed balls
-                EventManager.Instance.Publish(TypeOfEvent.SpawnNewBalls, new SpawnNewBallsEventParams(connected.Count));
+                ////replace removed balls
+                //EventManager.Instance.Publish(TypeOfEvent.SpawnNormalBalls, new SpawnNormalBallsEventParams(connected.Count));
             }
         }
 
-        private void RemoveBall(INormalBall ball)
+        private void SpecialBallClicked(IBaseBall clickedBall)
+        {
+            HashSet<IBaseBall> ballsInRadius = GetNeighbors(clickedBall, _specialBallExplosionRadius);
+            HandleRemovedBalls(ballsInRadius);
+            foreach (IBaseBall ball in ballsInRadius)
+            {
+                //TO DO: ADD explosion FX HERE
+                
+            }
+        }
+
+        private void HandleRemovedBalls(HashSet<IBaseBall> removedBalls)
+        {
+            foreach (IBaseBall ball in removedBalls)
+            {
+                RemoveBall(ball);
+            }
+
+            var score = _ballParameters.CalculateScore(removedBalls.Count);
+            EventManager.Instance.Publish(TypeOfEvent.ScoreUpdate, new ScoreUpdateEventParams(score));
+
+            //replace removed balls
+            EventManager.Instance.Publish(TypeOfEvent.SpawnNormalBalls, new SpawnNormalBallsEventParams(removedBalls.Count));
+        }
+
+        private void RemoveBall(IBaseBall ball)
         {
             var ballObject = ball.Collider.gameObject;
-            if (ballObject.GetComponent<IPooledObject>() != null)
-            {
-                ballObject.SetActive(false);
-                ballObject.transform.position = new Vector2(100, 0);    //move ball away from the scene to avoid unexpected errors
-                ballObject.GetComponent<IPooledObject>().ReturnToPool();
-            }
-            else
-                GameObject.Destroy(ballObject);
-
+            ballObject.SetActive(false);
+            ballObject.transform.position = new Vector2(100, 0);    //move ball away from the scene to avoid unexpected errors
+            ball.ReturnToPool();
         }
 
-        private IEnumerator ExplodeBall(INormalBall ball)
+        private IEnumerator ExplodeBall(IBaseBall ball)
         {
             // Play explosion effect
             // Maybe add score

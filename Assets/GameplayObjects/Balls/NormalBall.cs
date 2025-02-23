@@ -6,19 +6,19 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class NormalBall : BaseBall
 {
-    protected override void OnMouseDown()
+    public override void Init(BallTypeParameters typeParams)
     {
-        EventManager.Instance.Publish(TypeOfEvent.BallClick, new BallClickEventParams(this));
-    }
-
-    public override void Init(int type, Color color)
-    {
-        _type = type;
-        _spriteRenderer.color = color;
+        _type = typeParams;
+        _spriteRenderer.color = typeParams.Color;
     }
 
     public override void ReturnToPool()
     {
         SendToPoolCB?.Invoke(gameObject);
+    }
+
+    protected override void OnMouseDown()
+    {
+        EventManager.Instance.Publish(TypeOfEvent.BallClick, new BallClickEventParams(this));
     }
 }

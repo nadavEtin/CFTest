@@ -1,13 +1,12 @@
-﻿using Assets.Infrastructure.ObjectPool;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Assets.GameplayObjects.Balls
 {
     [RequireComponent(typeof(CircleCollider2D))]
-    public abstract class BaseBall : MonoBehaviour, INormalBall, IPooledObject
+    public abstract class BaseBall : MonoBehaviour, IBaseBall
     {
-        public int Type => _type;
+        public BallTypeParameters BallParameters => _type;
         public CircleCollider2D Collider => _collider;
         public Vector2 Position => transform.position;
 
@@ -16,11 +15,11 @@ namespace Assets.GameplayObjects.Balls
         [SerializeField] protected SpriteRenderer _spriteRenderer;
         [SerializeField] protected CircleCollider2D _collider;
 
-        protected int _type;
+        protected BallTypeParameters _type;
 
         protected abstract void OnMouseDown();
 
-        public abstract void Init(int type, Color color);
+        public abstract void Init(BallTypeParameters typeParams);
 
         public abstract void ReturnToPool();
     }

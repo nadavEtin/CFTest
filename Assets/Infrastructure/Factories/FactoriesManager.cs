@@ -8,8 +8,8 @@ namespace Assets.Infrastructure.Factories
 {
     public enum FactoryType
     {
-        NormalBall
-
+        NormalBall,
+        SpecialBall
     }
 
     public class FactoriesManager : MonoBehaviour, IFactoriesManager
@@ -34,7 +34,8 @@ namespace Assets.Infrastructure.Factories
         {
             factories = new Dictionary<FactoryType, IGameObjectFactory>
             {
-                { FactoryType.NormalBall, new BallFactory(/*this,*/ _assetRefs.NormalBallPrefab) }
+                { FactoryType.NormalBall, new NormalBallFactory(/*this,*/ _assetRefs.NormalBallPrefab) },
+                { FactoryType.SpecialBall, new SpecialBallFactory(/*this,*/ _assetRefs.SpecialBallPrefab) }
             };
         }
 
@@ -42,7 +43,7 @@ namespace Assets.Infrastructure.Factories
         {
             if (factories.TryGetValue(factoryType, out var factory))
             {
-                return factory.Create(amount);
+                return factory.Create(amount, parent);
             }
             else
             {

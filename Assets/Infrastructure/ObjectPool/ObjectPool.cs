@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Assets.Infrastructure.ObjectPool
 {
-    public class BallObjectPool : IObjectPool
+    public class ObjectPool : IObjectPool
     {
         public int Count => _objectPool.Count;
 
         private readonly List<GameObject> _objectPool;
 
-        public BallObjectPool()
+        public ObjectPool()
         {
             _objectPool = new List<GameObject>();
         }

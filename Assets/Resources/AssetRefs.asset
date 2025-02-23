@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AssetRefs
   m_EditorClassIdentifier: 
   _normalBallPrefab: {fileID: 3917427657863973759, guid: 5f0e7c6f60968b44e8175e28d852b7f5, type: 3}
+  _specialBallPrefab: {fileID: 3917427657863973759, guid: db705b71a98834549983657a252132bf, type: 3}
   _factoiesManager: {fileID: 9040017758070746818, guid: e5ff08d403e1c8e4e9e4aa0f1c652751, type: 3}
   _ballSpawner: {fileID: 7689307868963221330, guid: 63188895ac218b34ea4d9639294904e6, type: 3}
   _scorePanel: {fileID: 9022983916746286367, guid: 8341ef4093777bb49b48fadc2f8f10d3, type: 3}

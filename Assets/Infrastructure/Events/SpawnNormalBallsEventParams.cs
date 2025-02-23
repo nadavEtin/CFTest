@@ -2,11 +2,11 @@
 
 namespace Events
 {
-    public class SpawnNewBallsEventParams : BaseEventParams
+    public class SpawnNormalBallsEventParams : BaseEventParams
     {
         public int BallAmount { get; }
 
-        public SpawnNewBallsEventParams(int amount)
+        public SpawnNormalBallsEventParams(int amount)
         {
             BallAmount = amount;
         }

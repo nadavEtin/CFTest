@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Assets.Infrastructure.Factories
 {
-    public class BallFactory : BaseGameObjectFactory
+    public class SpecialBallFactory : BaseGameObjectFactory
     {
-        public BallFactory(GameObject assetPrefab) : base(assetPrefab)
+        public SpecialBallFactory(GameObject assetPrefab) : base(assetPrefab)
         {
         }
 
