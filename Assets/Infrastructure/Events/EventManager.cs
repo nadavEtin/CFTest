@@ -17,6 +17,7 @@ namespace Assets.Infrastructure.Events
         TimeUpdate,
         TimeUp,
         ScoreUpdate,
+        ScoreTargetReached
     }
 
     public class EventManager

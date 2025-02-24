@@ -17,5 +17,7 @@ MonoBehaviour:
   _factoiesManager: {fileID: 9040017758070746818, guid: e5ff08d403e1c8e4e9e4aa0f1c652751, type: 3}
   _ballSpawner: {fileID: 7689307868963221330, guid: 63188895ac218b34ea4d9639294904e6, type: 3}
   _scorePanel: {fileID: 9022983916746286367, guid: 8341ef4093777bb49b48fadc2f8f10d3, type: 3}
+  _targetScorePanel: {fileID: 2365103627002065134, guid: 01f25ab0220ab2b409a9c3a6419ed821, type: 3}
   _movesPanel: {fileID: 1828781560253224868, guid: aae11ceab06fb9e43a652ab6dbcb2427, type: 3}
   _timerPanel: {fileID: 217931312833309495, guid: d6df2c9a61f7c9048a0cde4a3777c490, type: 3}
+  _menuPanel: {fileID: 3757904577713808132, guid: 8782af2867a5eec4e95cfa53288b8a98, type: 3}

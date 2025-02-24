@@ -8,15 +8,16 @@ namespace GameCore.UI
 {
     public class UIManager : MonoBehaviour, IUIManager
     {
-        private GameObject _scorePanel, _movesPanel, _timerPanel;
+        private GameObject _scorePanel, _targetScorePanel, _movesPanel, _timerPanel;
 
-        private TextMeshProUGUI _scoreText, _movesText, _timerText;
+        private TextMeshProUGUI _scoreText, _targetScoreText, _movesText, _timerText;
         private AssetRefsScriptableObject _assetRefs;
-        private int _score, _movesLeft, _timeLeft;
+        private int _score, _targetScore, _movesLeft, _timeLeft;
 
-        public void Init(AssetRefsScriptableObject assetRefs, int startingMoves, int startingTime)
+        public void Init(AssetRefsScriptableObject assetRefs, int targetScore, int startingMoves, int startingTime)
         {            
             _assetRefs = assetRefs;
+            _targetScore = targetScore;
             _movesLeft = startingMoves;
             _timeLeft = startingTime;
             SetupGameplayUI();
@@ -28,13 +29,17 @@ namespace GameCore.UI
         private void SetupGameplayUI()
         {
             _scorePanel = Instantiate(_assetRefs.ScorePanel, transform);
+            _targetScorePanel = Instantiate(_assetRefs.TargetScorePanel, transform);
             _movesPanel = Instantiate(_assetRefs.MovesPanel, transform);
             _timerPanel = Instantiate(_assetRefs.TimerPanel, transform);
+            var menuPanel = Instantiate(_assetRefs.MenuPanel, transform);
             _scoreText = _scorePanel.GetComponentInChildren<TextMeshProUGUI>();
+            _targetScoreText = _targetScorePanel.GetComponentInChildren<TextMeshProUGUI>();
             _movesText = _movesPanel.GetComponentInChildren<TextMeshProUGUI>();
             _timerText = _timerPanel.GetComponentInChildren<TextMeshProUGUI>();
 
             _scoreText.text = $"Score: {_score}";
+            _targetScoreText.text = $"/  {_targetScore}";
             _movesText.text = $"Moves: {_movesLeft}";
             _timerText.text = $"Time left: {_timeLeft}";
         }

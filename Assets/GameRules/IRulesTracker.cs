@@ -2,7 +2,7 @@
 {
     public interface IRulesTracker
     {
-        bool ScoreTargetReached { get; }
+        //bool ScoreTargetReached { get; }
 
         void Init(GameRulesScriptableObject gameRules);
     }

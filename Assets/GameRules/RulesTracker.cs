@@ -7,11 +7,11 @@ namespace Assets.GameRules
 {
     public class RulesTracker : MonoBehaviour, IRulesTracker
     {
-        public bool ScoreTargetReached => _scoreTargetReached;
+        //public bool ScoreTargetReached => _scoreTargetReached;
 
         private GameRulesScriptableObject _gameRules;
         private int _currentScore, _targetScore, _tapsLeft, _timeLeft;
-        private bool _scoreTargetReached;
+        //private bool _scoreTargetReached;
 
         public void Init(GameRulesScriptableObject gameRules)
         {
@@ -47,7 +47,7 @@ namespace Assets.GameRules
             {
                 EventManager.Instance.Publish(TypeOfEvent.TimeUpdate, new TimeUpdateEventParams(0));
                 EventManager.Instance.Publish(TypeOfEvent.TimeUp, new EmptyParams());
-            }                
+            }
         }
 
         private void MovesUpdate(BaseEventParams eventParams)
@@ -55,7 +55,7 @@ namespace Assets.GameRules
             _tapsLeft -= 1;
             //if (_tapsLeft > 0)            
             //    EventManager.Instance.Publish(TypeOfEvent.MovesUpdate, new TapsUpdateEventParams(_tapsLeft));
-            if(_tapsLeft <= 0)
+            if (_tapsLeft <= 0)
             {
                 //EventManager.Instance.Publish(TypeOfEvent.MovesUpdate, new TapsUpdateEventParams(0));
                 EventManager.Instance.Publish(TypeOfEvent.MovesOver, new EmptyParams());
@@ -66,8 +66,9 @@ namespace Assets.GameRules
         {
             var scoreParams = (ScoreUpdateEventParams)eventParams;
             _currentScore += scoreParams.Score;
-            if (_currentScore >= _targetScore)            
-                _scoreTargetReached = true;            
+            if (_currentScore >= _targetScore)
+                EventManager.Instance.Publish(TypeOfEvent.ScoreTargetReached, new EmptyParams());
+            //_scoreTargetReached = true;
         }
 
         private void OnDestroy()

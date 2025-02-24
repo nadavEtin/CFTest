@@ -5,6 +5,7 @@ using Assets.Infrastructure.Factories;
 using Assets.Scripts.Utility;
 using Assets.Scripts.Utility.Events;
 using GameCore.UI;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Infrastructure
@@ -20,16 +21,19 @@ namespace Assets.Infrastructure
         private IRulesTracker _rulesTracker;
         private BallManager _ballManager;
 
+        private bool _playerWon, _gameOverSequenceStarted;
 
         //FOR TESTING
-        private bool showCircle;
-        Vector3 circlePosition;
-        float circleRadius;
+        //private bool showCircle;
+        //Vector3 circlePosition;
+        //float circleRadius;
 
         private void Awake()
         {
             //FOR TESTING
-            EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
+            //EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
+            EventManager.Instance.Subscribe(TypeOfEvent.GameOver, GameOverTrigger);
+            EventManager.Instance.Subscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
 
             SetupManagers();
             SetupGameplayScene();
@@ -53,65 +57,86 @@ namespace Assets.Infrastructure
         {
             _rulesTracker = GetComponent<IRulesTracker>();
             _rulesTracker.Init(_gameRules);
-            _canvas.AddComponent<UIManager>().Init(_assetRefs, _gameRules.MaxMoves, _gameRules.TimeLimit);
+            _canvas.AddComponent<UIManager>().Init(_assetRefs, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
         }
 
-
-
-
-
-        private void LeavingGameplayScene()
+        private void TargetScoreReached(BaseEventParams eventParams)
         {
+            _playerWon = true;
+        }
+
+        private void GameOverTrigger(BaseEventParams eventParams)
+        {
+            if (_gameOverSequenceStarted)
+                return;
+
+            _gameOverSequenceStarted = true;
+            StartCoroutine(GameOverSequence());
+        }
+
+        private IEnumerator GameOverSequence()
+        {
+            //wait 1 frame to avoid edge case errors from concurrent events
+            yield return null;
+            if (_playerWon)
+                //TODO: show win screen
+                Debug.Log("Player Won");
+            else
+                //TODO: show lose screen
+                Debug.Log("Player Lost");
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.Instance.Unsubscribe(TypeOfEvent.GameOver, GameOverTrigger);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
             _ballManager.Unsubscribe();
-            //EventManager.Instance.Unsubscribe(TypeOfEvent.BallClick, OnBallClicked);
         }
-
-
 
 
         //FOR TESTING
-        public void OnBallClicked(BaseEventParams eventParams)
-        {
-            var clickedBall = ((BallClickEventParams)eventParams).Ball;
-            circleRadius = clickedBall.Collider.radius * _ballParameters.SpecialBallExplosionRadius;
-            circlePosition = clickedBall.Position;
-            showCircle = true;
-        }
+        //public void OnBallClicked(BaseEventParams eventParams)
+        //{
+        //    var clickedBall = ((BallClickEventParams)eventParams).Ball;
+        //    circleRadius = clickedBall.Collider.radius * _ballParameters.SpecialBallExplosionRadius;
+        //    circlePosition = clickedBall.Position;
+        //    showCircle = true;
+        //}
 
 
-        private void Update()
-        {
-            if (showCircle)
-            {
-                DrawCircle(circlePosition, circleRadius);
-            }
-        }
+        //private void Update()
+        //{
+        //    if (showCircle)
+        //    {
+        //        DrawCircle(circlePosition, circleRadius);
+        //    }
+        //}
 
         //FOR TESTING
-        private void DrawCircle(Vector3 position, float radius)
-        {
-            int segments = 36; // More segments = smoother circle
-            float angle = 360f / segments;
+        //private void DrawCircle(Vector3 position, float radius)
+        //{
+        //    int segments = 36; // More segments = smoother circle
+        //    float angle = 360f / segments;
 
-            for (int i = 0; i < segments; i++)
-            {
-                float currentAngle = angle * i * Mathf.Deg2Rad;
-                float nextAngle = angle * (i + 1) * Mathf.Deg2Rad;
+        //    for (int i = 0; i < segments; i++)
+        //    {
+        //        float currentAngle = angle * i * Mathf.Deg2Rad;
+        //        float nextAngle = angle * (i + 1) * Mathf.Deg2Rad;
 
-                Vector3 currentPoint = position + new Vector3(
-                    Mathf.Cos(currentAngle) * radius,
-                    Mathf.Sin(currentAngle) * radius,
-                    0
-                );
+        //        Vector3 currentPoint = position + new Vector3(
+        //            Mathf.Cos(currentAngle) * radius,
+        //            Mathf.Sin(currentAngle) * radius,
+        //            0
+        //        );
 
-                Vector3 nextPoint = position + new Vector3(
-                    Mathf.Cos(nextAngle) * radius,
-                    Mathf.Sin(nextAngle) * radius,
-                    0
-                );
+        //        Vector3 nextPoint = position + new Vector3(
+        //            Mathf.Cos(nextAngle) * radius,
+        //            Mathf.Sin(nextAngle) * radius,
+        //            0
+        //        );
 
-                Debug.DrawLine(currentPoint, nextPoint, Color.black);
-            }
-        }
+        //        Debug.DrawLine(currentPoint, nextPoint, Color.black);
+        //    }
+        //}
     }
 }
