@@ -8,8 +8,12 @@ namespace Assets.Infrastructure.Factories
 {
     public enum FactoryType
     {
+        //gameplay objects
         NormalBall,
-        SpecialBall
+        SpecialBall,
+
+        //UI
+        MissPopup
     }
 
     public class FactoriesManager : MonoBehaviour, IFactoriesManager
@@ -34,8 +38,9 @@ namespace Assets.Infrastructure.Factories
         {
             factories = new Dictionary<FactoryType, IGameObjectFactory>
             {
-                { FactoryType.NormalBall, new NormalBallFactory(/*this,*/ _assetRefs.NormalBallPrefab) },
-                { FactoryType.SpecialBall, new SpecialBallFactory(/*this,*/ _assetRefs.SpecialBallPrefab) }
+                { FactoryType.NormalBall, new NormalBallFactory(_assetRefs.NormalBallPrefab) },
+                { FactoryType.SpecialBall, new SpecialBallFactory(_assetRefs.SpecialBallPrefab) },
+                { FactoryType.MissPopup, new MissPopupFactory(_assetRefs.MissPopupPrefab) }
             };
         }
 

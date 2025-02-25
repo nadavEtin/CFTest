@@ -3,7 +3,6 @@ using Assets.GameRules;
 using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
 using Assets.Scripts.Utility;
-using Assets.Scripts.Utility.Events;
 using GameCore.UI;
 using System.Collections;
 using UnityEngine;
@@ -14,11 +13,13 @@ namespace Assets.Infrastructure
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private GameObject _canvas;
+        [SerializeField] private Camera _mainCamera;
         [SerializeField] private AssetRefsScriptableObject _assetRefs;
         [SerializeField] private BallParametersScriptableObject _ballParameters;
         [SerializeField] private GameRulesScriptableObject _gameRules;
 
         private IRulesTracker _rulesTracker;
+        private IFactoriesManager _factoriesManager;
         private BallManager _ballManager;
 
         private bool _playerWon, _gameOverSequenceStarted;
@@ -37,13 +38,14 @@ namespace Assets.Infrastructure
 
             SetupManagers();
             SetupGameplayScene();
-            EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
+            //EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
         }
 
         private void SetupManagers()
         {
-            var _factoriesManager = Instantiate(_assetRefs.FactoriesManager).GetComponent<FactoriesManager>();
-            _factoriesManager.Init(_assetRefs);
+            var factoriesManager = Instantiate(_assetRefs.FactoriesManager).GetComponent<FactoriesManager>();
+            factoriesManager.Init(_assetRefs);
+            _factoriesManager = factoriesManager;
             var _ballSpawner = Instantiate(_assetRefs.BallSpawner).GetComponent<BallSpawner>();
             _ballSpawner.Init(_factoriesManager, _ballParameters);
             _ballManager = new BallManager(_ballParameters);
@@ -51,13 +53,14 @@ namespace Assets.Infrastructure
             //REMOVE LATER
             _gameRules.Init(GameDifficulty.Easy);
             _gameRules.SetDifficultySettings();
+
+            _rulesTracker = GetComponent<IRulesTracker>();
+            _rulesTracker.Init(_gameRules);
         }
 
         private void SetupGameplayScene()
-        {
-            _rulesTracker = GetComponent<IRulesTracker>();
-            _rulesTracker.Init(_gameRules);
-            _canvas.AddComponent<UIManager>().Init(_assetRefs, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
+        {            
+            _canvas.AddComponent<UIManager>().Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
         }
 
         private void TargetScoreReached(BaseEventParams eventParams)

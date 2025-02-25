@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8212900725395432856}
   - component: {fileID: 2058578829009300661}
+  - component: {fileID: 8094738812613326254}
+  - component: {fileID: 2916395657134372189}
   - component: {fileID: 7263151873832558017}
   m_Layer: 5
   m_Name: ScoreTarget
@@ -46,6 +48,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2365103627002065134}
   m_CullTransparentMesh: 1
+--- !u!114 &8094738812613326254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2365103627002065134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d292257f4ac1564992c2d35d02d983f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slideAnimation: {fileID: 2916395657134372189}
+  _rectTransform: {fileID: 8212900725395432856}
+--- !u!114 &2916395657134372189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2365103627002065134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64bbdbc425bc5044693ce0f1e68840ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7263151873832558017
 MonoBehaviour:
   m_ObjectHideFlags: 0

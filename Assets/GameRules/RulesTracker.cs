@@ -1,6 +1,5 @@
 ﻿using Assets.Infrastructure.Events;
 using Assets.Scripts.Utility;
-using Assets.Scripts.Utility.Events;
 using UnityEngine;
 
 namespace Assets.GameRules

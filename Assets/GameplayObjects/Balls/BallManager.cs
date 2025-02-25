@@ -109,6 +109,10 @@ namespace Assets.GameplayObjects.Balls
                 ////replace removed balls
                 //EventManager.Instance.Publish(TypeOfEvent.SpawnNormalBalls, new SpawnNormalBallsEventParams(connected.Count));
             }
+            else
+            {
+                EventManager.Instance.Publish(TypeOfEvent.MissedMove, new MissedMoveEventParams(clickedBall.Position));
+            }
         }
 
         private void SpecialBallClicked(IBaseBall clickedBall)

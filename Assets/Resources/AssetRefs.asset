@@ -21,3 +21,5 @@ MonoBehaviour:
   _movesPanel: {fileID: 1828781560253224868, guid: aae11ceab06fb9e43a652ab6dbcb2427, type: 3}
   _timerPanel: {fileID: 217931312833309495, guid: d6df2c9a61f7c9048a0cde4a3777c490, type: 3}
   _menuPanel: {fileID: 3757904577713808132, guid: 8782af2867a5eec4e95cfa53288b8a98, type: 3}
+  _messageWindow: {fileID: 2373011154668972480, guid: 8393b0bb51604ff42af550935595bbe6, type: 3}
+  _missPopupPrefab: {fileID: 2461619963360100158, guid: 7566561739126814c9f7fb585e9f9ea3, type: 3}

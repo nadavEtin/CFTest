@@ -14,6 +14,7 @@ namespace Assets.Infrastructure.Events
         SpawnSpecialBall,
         MovesOver,
         BallClick,
+        MissedMove,
         TimeUpdate,
         TimeUp,
         ScoreUpdate,

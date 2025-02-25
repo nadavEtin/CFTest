@@ -144,6 +144,8 @@ GameObject:
   m_Component:
   - component: {fileID: 514501631615314934}
   - component: {fileID: 3562117382752232589}
+  - component: {fileID: 1072591370152259435}
+  - component: {fileID: 1192008562922990052}
   - component: {fileID: 7426202799576661653}
   m_Layer: 5
   m_Name: ScoreDisplay
@@ -180,6 +182,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9022983916746286367}
   m_CullTransparentMesh: 1
+--- !u!114 &1072591370152259435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022983916746286367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4596edeac9e5d24fbbde79c32be44d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _slideAnimation: {fileID: 1192008562922990052}
+  _rectTransform: {fileID: 514501631615314934}
+--- !u!114 &1192008562922990052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9022983916746286367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64bbdbc425bc5044693ce0f1e68840ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7426202799576661653
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assets.Scripts.Utility;
 
-namespace Assets.Scripts.Utility.Events
+namespace Assets.Infrastructure.Events
 {
     public class EmptyParams : BaseEventParams
     {

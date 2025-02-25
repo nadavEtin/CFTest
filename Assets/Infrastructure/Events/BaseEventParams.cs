@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Utility.Events;
+﻿using Assets.Infrastructure.Events;
 
 namespace Assets.Scripts.Utility
 {

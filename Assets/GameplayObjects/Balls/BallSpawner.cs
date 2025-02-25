@@ -23,22 +23,23 @@ namespace Assets.GameplayObjects.Balls
             _factoriesManager = factoriesManager;
             _ballParams = ballParams;
             _normalBallTypes = _ballParams.NormalBallTypes;
-            
-            LevelStartSpawnBalls(_ballParams.StartingLevelBallCount);
             EventsSubscribe();
+            //LevelStartSpawnBalls(_ballParams.StartingLevelBallCount);
+            
         }
 
         private void EventsSubscribe()
         {            
             EventManager.Instance.Subscribe(TypeOfEvent.SpawnNormalBalls, SpawnReplacementBalls);
             EventManager.Instance.Subscribe(TypeOfEvent.SpawnSpecialBall, SpawnSpecialBalls);
+            EventManager.Instance.Subscribe(TypeOfEvent.GameStart, LevelStartSpawnBalls);
         }
 
-        public void LevelStartSpawnBalls(int ballAmount)
+        public void LevelStartSpawnBalls(BaseEventParams eventParams)
         {
-            var spawnRadius = 0.5f;
+            var spawnRadius = 0.3f;
             _sameTypeProbability = _ballParams.SameTypeProbability;
-            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, ballAmount, transform);
+            var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, _ballParams.StartingLevelBallCount, transform);
             for (int i = 0; i < newBalls.Length; i++)
             {
                 //small offset to prevent balls from stacking
@@ -113,6 +114,7 @@ namespace Assets.GameplayObjects.Balls
         {            
             EventManager.Instance.Unsubscribe(TypeOfEvent.SpawnNormalBalls, SpawnReplacementBalls);
             EventManager.Instance.Unsubscribe(TypeOfEvent.SpawnSpecialBall, SpawnSpecialBalls);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.GameStart, LevelStartSpawnBalls);
         }
     }
 }

@@ -165,7 +165,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1135675523044892042}
   - {fileID: 2698874324653388319}
@@ -226,8 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c0d81ac46d93346a2c30cad160a5b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _confirmButton: {fileID: 8954654499479628728}
   PopupText: {fileID: 6365443603243291062}
+  _confirmButton: {fileID: 8954654499479628728}
+  _rectTransform: {fileID: 2451621439148464490}
 --- !u!1 &5612705330703602860
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.07487086, y: 0.5421536}
   m_AnchorMax: {x: 0.9262583, y: 0.87123984}
-  m_AnchoredPosition: {x: 0.000030517578, y: -0.48171997}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.48171997}
   m_SizeDelta: {x: 1.3162994, y: 1.775}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7177872092067055613
