@@ -9,7 +9,8 @@ namespace Assets.Infrastructure
         [Space(5)]
         [Header("UI")]
         [SerializeField] private GameObject _scorePanel;
-        [SerializeField] private GameObject _targetScorePanel, _movesPanel, _timerPanel, _menuPanel, _messageWindow;
+        [SerializeField] private GameObject _targetScorePanel, _movesPanel, _timerPanel, 
+            _menuPanel, _messageWindow, _gameOverWindow, _clickBlocker;
         [SerializeField] private GameObject _missPopupPrefab;
 
         #region Public getters
@@ -24,6 +25,8 @@ namespace Assets.Infrastructure
         public GameObject TimerPanel => _timerPanel;
         public GameObject MenuPanel => _menuPanel;
         public GameObject MessageWindow => _messageWindow;
+        public GameObject GameOverWindow => _gameOverWindow;
+        public GameObject ClickBlocker => _clickBlocker;
         public GameObject MissPopupPrefab => _missPopupPrefab;
 
         #endregion

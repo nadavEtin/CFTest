@@ -56,6 +56,7 @@ namespace Assets.GameplayObjects.Balls
                         _cachedNormalBallTypes.Add(new BallTypeParameters { Type = (BallTypes)i, Color = _colors[i] });
                     }
                 }
+
                 return _cachedNormalBallTypes;
             }
         }

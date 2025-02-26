@@ -1,4 +1,5 @@
-﻿using Assets.Infrastructure.Events;
+﻿using Assets.Effects;
+using Assets.Infrastructure.Events;
 using Assets.Scripts.Utility;
 using Events;
 using System.Collections;
@@ -10,17 +11,20 @@ namespace Assets.GameplayObjects.Balls
     public class BallManager
     {
         private BallParametersScriptableObject _ballParameters;
+        private EffectsManager _effectsManager;
         private int _minConnectedBallsForMatch, _minMatchSizeForSpecialBall;
         private float _normalBallNeighborDetectionRadius, _specialBallExplosionRadius;
 
-        public BallManager(BallParametersScriptableObject ballParameters)
+        public BallManager(BallParametersScriptableObject ballParameters, EffectsManager effectsManager)
         {
-            EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
             _ballParameters = ballParameters;
+            _effectsManager = effectsManager;
             _minConnectedBallsForMatch = _ballParameters.MinConnectedCountForMatch;
             _minMatchSizeForSpecialBall = _ballParameters.MinMatchSizeToSpawnSpecial;
             _normalBallNeighborDetectionRadius = _ballParameters.NormalBallNeighborDetectionRadius;
             _specialBallExplosionRadius = _ballParameters.SpecialBallExplosionRadius;
+
+            EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
         }
 
         private HashSet<IBaseBall> GetConnectedBalls(IBaseBall startBall, float detectionRadius)
@@ -78,13 +82,10 @@ namespace Assets.GameplayObjects.Balls
         {
             var clickedBall = ((BallClickEventParams)eventParams).Ball;
 
-            if(clickedBall.BallParameters.Type == BallTypes.Special)            
-                SpecialBallClicked(clickedBall);            
-            else            
+            if (clickedBall.BallParameters.Type == BallTypes.Special)
+                SpecialBallClicked(clickedBall);
+            else
                 NormalBallClicked(clickedBall);
-            
-
-
         }
 
         private void NormalBallClicked(IBaseBall clickedBall)
@@ -96,23 +97,12 @@ namespace Assets.GameplayObjects.Balls
                 if (connected.Count >= _minMatchSizeForSpecialBall)
                     EventManager.Instance.Publish(TypeOfEvent.SpawnSpecialBall, new SpawnSpecialBallsEventParams(1, new Vector2[] { clickedBall.Position }));
 
+                //play pop fx over matched balls
+                _effectsManager.PlayRandomNormalBallFX(connected);
                 HandleRemovedBalls(connected);
-                foreach (IBaseBall ball in connected)
-                {
-                    //TO DO: ADD match FX HERE
-                    
-                }
-
-                //var score = _ballParameters.CalculateScore(connected.Count);
-                //EventManager.Instance.Publish(TypeOfEvent.ScoreUpdate, new ScoreUpdateEventParams(score));
-
-                ////replace removed balls
-                //EventManager.Instance.Publish(TypeOfEvent.SpawnNormalBalls, new SpawnNormalBallsEventParams(connected.Count));
             }
             else
-            {
                 EventManager.Instance.Publish(TypeOfEvent.MissedMove, new MissedMoveEventParams(clickedBall.Position));
-            }
         }
 
         private void SpecialBallClicked(IBaseBall clickedBall)
@@ -122,7 +112,7 @@ namespace Assets.GameplayObjects.Balls
             foreach (IBaseBall ball in ballsInRadius)
             {
                 //TO DO: ADD explosion FX HERE
-                
+
             }
         }
 

@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using GameCore.Factories;
+﻿using GameCore.Factories;
 using System.Collections.Generic;
-using System;
+using UnityEngine;
 
 namespace Assets.Infrastructure.Factories
 {
@@ -13,26 +11,24 @@ namespace Assets.Infrastructure.Factories
         SpecialBall,
 
         //UI
-        MissPopup
+        MissPopup,
+
+        //effects
+        BallPopFX,
     }
 
     public class FactoriesManager : MonoBehaviour, IFactoriesManager
     {
         private AssetRefsScriptableObject _assetRefs;
+        private EffectRefsScriptableObject _effectRefs;
         private Dictionary<FactoryType, IGameObjectFactory> factories;
 
-        public void Init(AssetRefsScriptableObject assetRefs)
+        public void Init(AssetRefsScriptableObject assetRefs, EffectRefsScriptableObject effectRefs)
         {
             _assetRefs = assetRefs;
+            _effectRefs = effectRefs;
             InitializeFactories();
         }
-
-        //private void Awake()
-        //{
-        //    //FOR TESTING
-        //    _assetRefs = Resources.Load<AssetRefsScriptableObject>("AssetRefs");
-        //    InitializeFactories();
-        //}
 
         private void InitializeFactories()
         {
@@ -40,7 +36,8 @@ namespace Assets.Infrastructure.Factories
             {
                 { FactoryType.NormalBall, new NormalBallFactory(_assetRefs.NormalBallPrefab) },
                 { FactoryType.SpecialBall, new SpecialBallFactory(_assetRefs.SpecialBallPrefab) },
-                { FactoryType.MissPopup, new MissPopupFactory(_assetRefs.MissPopupPrefab) }
+                { FactoryType.MissPopup, new MissPopupFactory(_assetRefs.MissPopupPrefab) },
+                { FactoryType.BallPopFX, new ParticleEffectsFactory(_effectRefs.NormalBallPop1, _effectRefs.NormalBallPopEffects) }
             };
         }
 

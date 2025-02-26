@@ -8,15 +8,14 @@ namespace Assets.Infrastructure.Events
     {
         GameStart,
         GameOver,
+        ReplayLevel,
 
         
         SpawnNormalBalls,
         SpawnSpecialBall,
-        MovesOver,
         BallClick,
         MissedMove,
         TimeUpdate,
-        TimeUp,
         ScoreUpdate,
         ScoreTargetReached
     }

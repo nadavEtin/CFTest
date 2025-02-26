@@ -37,7 +37,7 @@ namespace Assets.GameplayObjects.Balls
 
         public void LevelStartSpawnBalls(BaseEventParams eventParams)
         {
-            var spawnRadius = 0.3f;
+            var spawnRadius = 0.2f;
             _sameTypeProbability = _ballParams.SameTypeProbability;
             var newBalls = _factoriesManager.GetObject(FactoryType.NormalBall, _ballParams.StartingLevelBallCount, transform);
             for (int i = 0; i < newBalls.Length; i++)

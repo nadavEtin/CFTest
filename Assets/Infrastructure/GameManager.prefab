@@ -46,9 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 0}
+  _mainCamera: {fileID: 0}
   _assetRefs: {fileID: 11400000, guid: 1dc2be17d20ba6a408f4e4cf975abfe3, type: 2}
   _ballParameters: {fileID: 11400000, guid: 0ff7ddfa38392794b99521af8a38cebc, type: 2}
   _gameRules: {fileID: 11400000, guid: 9edf64ade3dff1c4f8ae2f8c4447783e, type: 2}
+  _effectRefs: {fileID: 11400000, guid: f767b2aebf0e7f247a1ec6c82cceac54, type: 2}
 --- !u!114 &952989869484173970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,4 +63,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bebffb9ac0f6ff4a802752064cb17fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameRules: {fileID: 11400000, guid: 9edf64ade3dff1c4f8ae2f8c4447783e, type: 2}

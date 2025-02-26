@@ -45,20 +45,15 @@ namespace Assets.GameRules
             else
             {
                 EventManager.Instance.Publish(TypeOfEvent.TimeUpdate, new TimeUpdateEventParams(0));
-                EventManager.Instance.Publish(TypeOfEvent.TimeUp, new EmptyParams());
+                EventManager.Instance.Publish(TypeOfEvent.GameOver, new EmptyParams());
             }
         }
 
         private void MovesUpdate(BaseEventParams eventParams)
         {
             _tapsLeft -= 1;
-            //if (_tapsLeft > 0)            
-            //    EventManager.Instance.Publish(TypeOfEvent.MovesUpdate, new TapsUpdateEventParams(_tapsLeft));
-            if (_tapsLeft <= 0)
-            {
-                //EventManager.Instance.Publish(TypeOfEvent.MovesUpdate, new TapsUpdateEventParams(0));
-                EventManager.Instance.Publish(TypeOfEvent.MovesOver, new EmptyParams());
-            }
+            if (_tapsLeft <= 0)            
+                EventManager.Instance.Publish(TypeOfEvent.GameOver, new EmptyParams());            
         }
 
         private void ScoreUpdate(BaseEventParams eventParams)

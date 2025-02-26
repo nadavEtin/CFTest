@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b220079bc0ac3d44b149bcef62bb6d5, type: 3}
   m_Name: GeneralGameRules
   m_EditorClassIdentifier: 
-  _easyTimeLimit: 40
+  _currentDifficulty: 0
+  _easyTimeLimit: 45
   _easyTargetScore: 300
   _easyMaxMoves: 30
   _normalTimeLimit: 30
@@ -21,7 +22,6 @@ MonoBehaviour:
   _hardTimeLimit: 15
   _hardTargetScore: 500
   _hardMaxMoves: 15
-  TimeLimit: 40
+  TimeLimit: 45
   TargetScore: 300
   MaxMoves: 30
-  _currentDifficulty: 0

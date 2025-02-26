@@ -16,9 +16,9 @@ MonoBehaviour:
   _colors:
   - {r: 1, g: 0.2999999, b: 0.2999999, a: 1}
   - {r: 0.6065494, g: 1, b: 0.1566037, a: 1}
-  - {r: 0.2320754, g: 0.30203494, b: 1, a: 1}
+  - {r: 0, g: 0.062032916, b: 0.6754716, a: 1}
   - {r: 0.93664837, g: 0.23137254, b: 1, a: 1}
-  _startingLevelBallCount: 35
+  _startingLevelBallCount: 55
   _minConnectedCountForMatch: 3
   _minMatchSizeToSpawnSpecial: 10
   _normalBallNeighborDetectionRadius: 1.1

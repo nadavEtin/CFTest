@@ -9,6 +9,7 @@ public class PopupMessage : MonoBehaviour
     public TextMeshProUGUI PopupText;
 
     [SerializeField] private Button _confirmButton;
+    [SerializeField] private Button _replayButton;
     [SerializeField] private RectTransform _rectTransform;
 
     private Tween _scaleTween;
@@ -18,9 +19,6 @@ public class PopupMessage : MonoBehaviour
 
     public void ShowWindow()
     {
-        if (_scaleTween != null && _scaleTween.IsPlaying())
-            _scaleTween.Kill();
-
         _rectTransform.localScale = _smallScale;
 
         _scaleTween = _rectTransform.DOScale(_normalScale, animationDuration)
@@ -29,9 +27,6 @@ public class PopupMessage : MonoBehaviour
 
     public void HideWindow()
     {
-        if (_scaleTween != null && _scaleTween.IsPlaying())
-            _scaleTween.Kill();
-
         _rectTransform.localScale = _normalScale;
 
         _scaleTween = _rectTransform.DOScale(_smallScale, animationDuration)
@@ -42,6 +37,16 @@ public class PopupMessage : MonoBehaviour
     public void ConfirmButtonClick()
     {
         HideWindow();
+    }
+
+    public void ReplayButtonClick()
+    {
+        EventManager.Instance.Publish(TypeOfEvent.ReplayLevel, new EmptyParams());
+    }
+
+    public void BackButtonClick()
+    {
+        
     }
 
     private void HideAnimationDone()

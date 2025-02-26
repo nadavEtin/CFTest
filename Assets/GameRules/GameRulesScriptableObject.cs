@@ -12,6 +12,7 @@ namespace Assets.GameRules
     [CreateAssetMenu(fileName = "GameRules", menuName = "ScriptableObjects/Game rules")]
     public class GameRulesScriptableObject : ScriptableObject
     {
+        [SerializeField] private GameDifficulty _currentDifficulty;
         [Header("Easy Difficulty")]
         [SerializeField] private int _easyTimeLimit;
         [SerializeField] private int _easyTargetScore;
@@ -29,7 +30,7 @@ namespace Assets.GameRules
 
         [HideInInspector] public int TimeLimit, TargetScore, MaxMoves;
 
-        [SerializeField] private GameDifficulty _currentDifficulty;
+        
 
         public void Init(GameDifficulty difficulty)
         {

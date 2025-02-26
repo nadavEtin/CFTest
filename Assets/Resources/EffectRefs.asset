@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de902650017c49c41a19589e8e07ce00, type: 3}
+  m_Name: EffectRefs
+  m_EditorClassIdentifier: 
+  _normalBallPop1: {fileID: 7476716187462679552, guid: e38bb88364b8a424caa9494af2b5d543, type: 3}
+  _normalBallPop2: {fileID: 7476716187462679552, guid: e38bb88364b8a424caa9494af2b5d543, type: 3}
+  _normalBallPop3: {fileID: 7476716187462679552, guid: e38bb88364b8a424caa9494af2b5d543, type: 3}
+  _specialBallPop: {fileID: 0}

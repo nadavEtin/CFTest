@@ -1,3 +1,4 @@
+using Assets.Effects;
 using Assets.GameplayObjects.Balls;
 using Assets.GameRules;
 using Assets.Infrastructure.Events;
@@ -6,6 +7,7 @@ using Assets.Scripts.Utility;
 using GameCore.UI;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Infrastructure
 {
@@ -17,10 +19,13 @@ namespace Assets.Infrastructure
         [SerializeField] private AssetRefsScriptableObject _assetRefs;
         [SerializeField] private BallParametersScriptableObject _ballParameters;
         [SerializeField] private GameRulesScriptableObject _gameRules;
+        [SerializeField] private EffectRefsScriptableObject _effectRefs;
 
+        private IUIManager _uiManager;
         private IRulesTracker _rulesTracker;
         private IFactoriesManager _factoriesManager;
         private BallManager _ballManager;
+        private EffectsManager _effectsManager;
 
         private bool _playerWon, _gameOverSequenceStarted;
 
@@ -35,6 +40,7 @@ namespace Assets.Infrastructure
             //EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
             EventManager.Instance.Subscribe(TypeOfEvent.GameOver, GameOverTrigger);
             EventManager.Instance.Subscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
+            EventManager.Instance.Subscribe(TypeOfEvent.ReplayLevel, ReplayLevel);
 
             SetupManagers();
             SetupGameplayScene();
@@ -44,13 +50,15 @@ namespace Assets.Infrastructure
         private void SetupManagers()
         {
             var factoriesManager = Instantiate(_assetRefs.FactoriesManager).GetComponent<FactoriesManager>();
-            factoriesManager.Init(_assetRefs);
+            factoriesManager.Init(_assetRefs, _effectRefs);
             _factoriesManager = factoriesManager;
             var _ballSpawner = Instantiate(_assetRefs.BallSpawner).GetComponent<BallSpawner>();
             _ballSpawner.Init(_factoriesManager, _ballParameters);
-            _ballManager = new BallManager(_ballParameters);
+            _effectsManager = new EffectsManager(_factoriesManager);
+            _ballManager = new BallManager(_ballParameters, _effectsManager);
 
-            //REMOVE LATER
+
+            //TODO: REMOVE LATER
             _gameRules.Init(GameDifficulty.Easy);
             _gameRules.SetDifficultySettings();
 
@@ -59,8 +67,10 @@ namespace Assets.Infrastructure
         }
 
         private void SetupGameplayScene()
-        {            
-            _canvas.AddComponent<UIManager>().Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
+        {
+            _uiManager = _canvas.AddComponent<UIManager>();
+            _uiManager.Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
+            //_canvas.AddComponent<UIManager>().Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
         }
 
         private void TargetScoreReached(BaseEventParams eventParams)
@@ -81,18 +91,19 @@ namespace Assets.Infrastructure
         {
             //wait 1 frame to avoid edge case errors from concurrent events
             yield return null;
-            if (_playerWon)
-                //TODO: show win screen
-                Debug.Log("Player Won");
-            else
-                //TODO: show lose screen
-                Debug.Log("Player Lost");
+            _uiManager.ShowEndGamePopup(_playerWon);
+        }
+
+        private void ReplayLevel(BaseEventParams eventParams)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void OnDestroy()
         {
             EventManager.Instance.Unsubscribe(TypeOfEvent.GameOver, GameOverTrigger);
             EventManager.Instance.Unsubscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.ReplayLevel, ReplayLevel);
             _ballManager.Unsubscribe();
         }
 
