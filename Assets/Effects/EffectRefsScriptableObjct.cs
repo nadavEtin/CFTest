@@ -18,15 +18,12 @@ public class EffectRefsScriptableObject : ScriptableObject
 
     private void OnEnable()
     {
-        if (_normalBallPopEffects == null || _normalBallPopEffects.Length == 0)
+        _normalBallPopEffects = new GameObject[]
         {
-            _normalBallPopEffects = new GameObject[]
-            {
-                _normalBallPop1,
-                _normalBallPop2,
-                _normalBallPop3
-            };
-        }
+            _normalBallPop1,
+            _normalBallPop2,
+            _normalBallPop3
+        };        
     }
 
     //public GameObject[] NormalBallPopEffects

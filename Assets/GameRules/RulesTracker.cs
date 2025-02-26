@@ -45,7 +45,7 @@ namespace Assets.GameRules
             else
             {
                 EventManager.Instance.Publish(TypeOfEvent.TimeUpdate, new TimeUpdateEventParams(0));
-                EventManager.Instance.Publish(TypeOfEvent.GameOver, new EmptyParams());
+                EventManager.Instance.Publish(TypeOfEvent.GameOver, new GameOverEventParams(_currentScore));
             }
         }
 
@@ -53,7 +53,7 @@ namespace Assets.GameRules
         {
             _tapsLeft -= 1;
             if (_tapsLeft <= 0)            
-                EventManager.Instance.Publish(TypeOfEvent.GameOver, new EmptyParams());            
+                EventManager.Instance.Publish(TypeOfEvent.GameOver, new GameOverEventParams(_currentScore));            
         }
 
         private void ScoreUpdate(BaseEventParams eventParams)
@@ -68,8 +68,8 @@ namespace Assets.GameRules
         private void OnDestroy()
         {
             EventManager.Instance.Unsubscribe(TypeOfEvent.GameStart, GameStarted);
-            EventManager.Instance.Subscribe(TypeOfEvent.BallClick, MovesUpdate);
-            EventManager.Instance.Subscribe(TypeOfEvent.ScoreUpdate, ScoreUpdate);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.BallClick, MovesUpdate);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.ScoreUpdate, ScoreUpdate);
         }
     }
 }

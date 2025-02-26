@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentDifficulty: 0
   _easyTimeLimit: 45
-  _easyTargetScore: 300
-  _easyMaxMoves: 30
+  _easyTargetScore: 50
+  _easyMaxMoves: 10
   _normalTimeLimit: 30
   _normalTargetScore: 400
   _normalMaxMoves: 20
@@ -23,5 +23,5 @@ MonoBehaviour:
   _hardTargetScore: 500
   _hardMaxMoves: 15
   TimeLimit: 45
-  TargetScore: 300
-  MaxMoves: 30
+  TargetScore: 50
+  MaxMoves: 10

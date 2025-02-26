@@ -21,13 +21,14 @@ namespace Assets.Infrastructure
         [SerializeField] private GameRulesScriptableObject _gameRules;
         [SerializeField] private EffectRefsScriptableObject _effectRefs;
 
-        private IUIManager _uiManager;
+        private GameplayUIManager _uiManager;
         private IRulesTracker _rulesTracker;
         private IFactoriesManager _factoriesManager;
         private BallManager _ballManager;
         private EffectsManager _effectsManager;
 
         private bool _playerWon, _gameOverSequenceStarted;
+        private int _finalScore;
 
         //FOR TESTING
         //private bool showCircle;
@@ -68,7 +69,7 @@ namespace Assets.Infrastructure
 
         private void SetupGameplayScene()
         {
-            _uiManager = _canvas.AddComponent<UIManager>();
+            _uiManager = _canvas.AddComponent<GameplayUIManager>();
             _uiManager.Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
             //_canvas.AddComponent<UIManager>().Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
         }
@@ -84,6 +85,8 @@ namespace Assets.Infrastructure
                 return;
 
             _gameOverSequenceStarted = true;
+            _finalScore = ((GameOverEventParams)eventParams).FinalScore;
+            SaveGameData();            
             StartCoroutine(GameOverSequence());
         }
 
@@ -97,6 +100,17 @@ namespace Assets.Infrastructure
         private void ReplayLevel(BaseEventParams eventParams)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        private void SaveGameData()
+        {
+            //save game score if its the highest
+            var savedBest = PlayerPrefs.GetInt("HighScore", 0);
+            if (_finalScore > savedBest)
+            {
+                PlayerPrefs.SetInt("HighScore", _finalScore);
+                PlayerPrefs.Save();
+            }                
         }
 
         private void OnDestroy()

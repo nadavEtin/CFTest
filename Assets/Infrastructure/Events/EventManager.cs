@@ -9,6 +9,7 @@ namespace Assets.Infrastructure.Events
         GameStart,
         GameOver,
         ReplayLevel,
+        ReturnToMainMenu,
 
         
         SpawnNormalBalls,
