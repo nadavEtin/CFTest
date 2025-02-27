@@ -1,7 +1,5 @@
 ﻿using Assets.Effects;
 using Assets.Infrastructure.Events;
-using Events;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +38,7 @@ namespace Assets.GameplayObjects.Balls
                     var neighbors = GetNeighbors(ball, detectionRadius);
                     foreach (IBaseBall neighbor in neighbors)
                     {
+                        //check same ball type (color) and that it wasn't already added
                         if (neighbor.BallParameters.Type == startBall.BallParameters.Type && !connectedBalls.Contains(neighbor))
                         {
                             nextBatch.Add(neighbor);
@@ -54,6 +53,7 @@ namespace Assets.GameplayObjects.Balls
             return connectedBalls;
         }
 
+        //find all balls in a given radius around a ball
         private HashSet<IBaseBall> GetNeighbors(IBaseBall ball, float detectionRadius)
         {
             var neighbors = new HashSet<IBaseBall>();
@@ -107,14 +107,13 @@ namespace Assets.GameplayObjects.Balls
         private void SpecialBallClicked(IBaseBall clickedBall)
         {
             HashSet<IBaseBall> ballsInRadius = GetNeighbors(clickedBall, _specialBallExplosionRadius);
-            HandleRemovedBalls(ballsInRadius);
-            foreach (IBaseBall ball in ballsInRadius)
-            {
-                //TO DO: ADD explosion FX HERE
+            _effectsManager.PlaySpecialBallEffect(clickedBall.Position);
 
-            }
+            //remove balls after launching fx
+            HandleRemovedBalls(ballsInRadius);
         }
 
+        //return balls to object pool, replace them and update score
         private void HandleRemovedBalls(HashSet<IBaseBall> removedBalls)
         {
             foreach (IBaseBall ball in removedBalls)
@@ -133,17 +132,8 @@ namespace Assets.GameplayObjects.Balls
         {
             var ballObject = ball.Collider.gameObject;
             ballObject.SetActive(false);
-            ballObject.transform.position = new Vector2(100, 0);    //move ball away from the scene to avoid unexpected errors
+            ballObject.transform.position = new Vector2(100, 0);    //move ball away from the scene to avoid unexpected collision errors
             ball.ReturnToPool();
-        }
-
-        private IEnumerator ExplodeBall(IBaseBall ball)
-        {
-            // Play explosion effect
-            // Maybe add score
-            // Return to pool or destroy
-            //Destroy(ball.gameObject);
-            yield return null;
         }
 
         public void Unsubscribe()

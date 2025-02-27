@@ -1,13 +1,13 @@
-﻿using Assets.Infrastructure.ObjectPool;
+﻿using Assets.Infrastructure.ObjectPoolNS;
 using UnityEngine;
 
-namespace GameCore.Factories
+namespace Assets.Infrastructure.Factories
 {
 
     public abstract class BaseGameObjectFactory : IGameObjectFactory
     {
-        protected readonly GameObject prefab;
-        protected GameObject[] additionalPrefabs;
+        protected readonly GameObject prefab;   //main prefab to create
+        protected GameObject[] additionalPrefabs;   //additional options
         protected ObjectPool objectPool;
 
         protected BaseGameObjectFactory(GameObject prefab)

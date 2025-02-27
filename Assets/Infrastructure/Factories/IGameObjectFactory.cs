@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace GameCore.Factories
+namespace Assets.Infrastructure.Factories
 {
     public interface IGameObjectFactory
     {

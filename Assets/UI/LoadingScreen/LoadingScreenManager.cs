@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 namespace Assets.UI.LoadingScreen
@@ -8,6 +10,7 @@ namespace Assets.UI.LoadingScreen
     public class LoadingScreenManager : MonoBehaviour
     {
         [SerializeField] private GameObject _loadingScreenPrefab;
+        [SerializeField] private AddressablesLoader _addressablesLoader;
 
         private LoadingScreenObject _activeLoadingScreen;
 
@@ -29,40 +32,37 @@ namespace Assets.UI.LoadingScreen
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             asyncLoad.allowSceneActivation = false;
 
-            // Start loading game assets
+            //also load addressable assets
             float totalProgress = 0f;
-            List<AsyncOperation> asyncOperations = new List<AsyncOperation>();
+            var addressableOperations = _addressablesLoader.LoadAllAssets();
 
-            // Add your asset loading operations here
-            asyncOperations.Add(asyncLoad);
-            // Example: asyncOperations.Add(Resources.LoadAsync<GameObject>("PreloadAssets"));
-
-            while (IsLoadingComplete(asyncOperations, out totalProgress) == false)
+            //wait for the loading to finish and update the loading bar on progress
+            while (IsLoadingComplete(addressableOperations, out totalProgress) == false)
             {
                 _activeLoadingScreen.UpdateProgress(totalProgress);
                 yield return null;
             }
 
-            // Ensure animation has completed
+            //ensure animation has completed
             yield return StartCoroutine(_activeLoadingScreen.OnLoadingCompleted());
 
-            // Activate the scene
+            //start the scene
             asyncLoad.allowSceneActivation = true;
 
-            // Clean up
+            //clean up
             Destroy(loadingScreenObj);
         }
 
-        private bool IsLoadingComplete(List<AsyncOperation> operations, out float totalProgress)
+        private bool IsLoadingComplete(List<AsyncOperationHandle> operations, out float totalProgress)
         {
             float progress = 0f;
-            foreach (AsyncOperation op in operations)
+            foreach (var op in operations)
             {
-                progress += op.progress;
+                progress += op.PercentComplete;
             }
 
             totalProgress = progress / operations.Count;
-            return totalProgress >= 0.9f;   //asyncOperation usually only goes to 0.9
+            return operations.All(op => op.PercentComplete >= 0.9f);
         }
     }
 }

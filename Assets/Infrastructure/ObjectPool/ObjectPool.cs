@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Utility;
+﻿using Assets.Infrastructure.ObjectPoolNS;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Infrastructure.ObjectPool
+namespace Assets.Infrastructure.ObjectPoolNS
 {
     public class ObjectPool : IObjectPool
     {

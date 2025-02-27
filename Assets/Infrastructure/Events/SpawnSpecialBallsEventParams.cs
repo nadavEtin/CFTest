@@ -1,7 +1,6 @@
-﻿using Assets.Infrastructure.Events;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Events
+namespace Assets.Infrastructure.Events
 {
     public class SpawnSpecialBallsEventParams : BaseEventParams
     {

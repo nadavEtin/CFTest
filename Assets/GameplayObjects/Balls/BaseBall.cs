@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Assets.GameplayObjects.Balls
 {
+    //base class for ball objects
     [RequireComponent(typeof(CircleCollider2D))]
     public abstract class BaseBall : MonoBehaviour, IBaseBall
     {

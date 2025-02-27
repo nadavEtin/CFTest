@@ -1,24 +1,23 @@
-﻿using Assets.Infrastructure.Factories;
+﻿using Assets.GameplayObjects.Balls;
+using Assets.Infrastructure.Factories;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Assets.Effects
 {
-    public class EffectsManager
+    public class EffectsManager : IEffectsManager
     {
-        //[SerializeField] private EffectRefsScriptableObject _effectsRefs;
-
         private IFactoriesManager _factoriesManager;
         private GameObject _fxContainer;
 
-        public EffectsManager(/*EffectRefsScriptableObject effectRefs,*/ IFactoriesManager factoriesManager)
+        public EffectsManager(IFactoriesManager factoriesManager)
         {
-            //_effectsRefs = effectRefs;
             _fxContainer = new GameObject("FxContainer");
             _factoriesManager = factoriesManager;
         }
 
+        //gets random effects from the available options
         public void PlayRandomNormalBallFX(HashSet<IBaseBall> balls)
         {
             if (balls == null || balls.Count == 0) return;
@@ -33,11 +32,10 @@ namespace Assets.Effects
             }
         }
 
-        // Optional: Method to play the special pop effect specifically
-        public void PlaySpecialEffect(Vector2 position)
+        public void PlaySpecialBallEffect(Vector2 position)
         {
-            //GameObject instance = Instantiate(_effectsRefs.SpecialBallPop, position, Quaternion.identity);
-            //Destroy(instance, 2f);
+            var fx = _factoriesManager.GetObject(FactoryType.SpecialBallPopFX, 1, _fxContainer.transform);
+            fx[0].transform.position = position;
         }
     }
 }

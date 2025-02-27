@@ -1,11 +1,11 @@
 using Assets.Infrastructure;
 using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using Assets.UI.GameScene;
+using Assets.UI.Popups;
 using TMPro;
 using UnityEngine;
 
-namespace GameCore.UI
+namespace Assets.UI.GameScene
 {
     public class GameplayUIManager : MonoBehaviour
     {
@@ -60,6 +60,7 @@ namespace GameCore.UI
             ShowMessageWindow();
         }
 
+        //initial message popup before the game starts
         private void ShowMessageWindow()
         {
             if (_messageWindow == null)
@@ -94,6 +95,7 @@ namespace GameCore.UI
             ShowHideGameplayUI(false);  //hide ui until game starts
         }
 
+        //controls ui visibility
         private void ShowHideGameplayUI(bool show)
         {
             if (show)
@@ -114,6 +116,7 @@ namespace GameCore.UI
             _menuPanel.SetActive(show);
         }
 
+        //spawns a "miss" text above the clicked ball if it wasn't a match
         private void ShowMissPopup(BaseEventParams eventParams)
         {
             var pos = ((MissedMoveEventParams)eventParams).BallWorldPosition;

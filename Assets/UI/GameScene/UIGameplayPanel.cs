@@ -36,6 +36,7 @@ namespace Assets.UI.GameScene
             _slideAnimation.MoveOnXAxis(_outOfViewPos.x, _moveAnimationDuration);
         }
 
+        //ui starts outside the camera view
         public void PositionOutOfView(bool leftDirection)
         {
             if(_outOfViewPos == Vector2.one)

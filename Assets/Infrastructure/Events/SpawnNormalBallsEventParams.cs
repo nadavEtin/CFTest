@@ -1,6 +1,4 @@
-﻿using Assets.Infrastructure.Events;
-
-namespace Events
+﻿namespace Assets.Infrastructure.Events
 {
     public class SpawnNormalBallsEventParams : BaseEventParams
     {

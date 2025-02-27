@@ -1,8 +1,8 @@
-﻿using Assets.Infrastructure.ObjectPool;
-using GameCore.Factories;
+﻿using Assets.Infrastructure.Factories;
+using Assets.Infrastructure.ObjectPoolNS;
 using UnityEngine;
 
-namespace Assets.Infrastructure.Factories
+namespace Assets.Effects
 {
     public class ParticleEffectsFactory : BaseGameObjectFactory
     {

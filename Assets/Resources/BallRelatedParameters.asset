@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535cfeac343771c4b93bd9ec70696cd7, type: 3}
   m_Name: BallRelatedParameters
   m_EditorClassIdentifier: 
-  ChosenDifficulty: 0
   _colors:
   - {r: 1, g: 0.2999999, b: 0.2999999, a: 1}
   - {r: 0.6065494, g: 1, b: 0.1566037, a: 1}
@@ -23,4 +22,6 @@ MonoBehaviour:
   _minMatchSizeToSpawnSpecial: 10
   _normalBallNeighborDetectionRadius: 1.1
   _specialBallExplosionRadius: 2.5
-  _sameTypeProbability: 0.5
+  _easySameType: 0.65
+  _normalSameType: 0.55
+  _hardSameType: 0.45

@@ -3,7 +3,7 @@ using Assets.GameplayObjects.Balls;
 using Assets.GameRules;
 using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using GameCore.UI;
+using Assets.UI.GameScene;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,15 +29,8 @@ namespace Assets.Infrastructure
         private bool _playerWon, _gameOverSequenceStarted;
         private int _finalScore;
 
-        //FOR TESTING
-        //private bool showCircle;
-        //Vector3 circlePosition;
-        //float circleRadius;
-
         private void Awake()
         {
-            //FOR TESTING
-            //EventManager.Instance.Subscribe(TypeOfEvent.BallClick, OnBallClicked);
             EventManager.Instance.Subscribe(TypeOfEvent.GameOver, GameOverTrigger);
             EventManager.Instance.Subscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
             EventManager.Instance.Subscribe(TypeOfEvent.ReplayLevel, ReplayLevel);
@@ -45,7 +38,6 @@ namespace Assets.Infrastructure
 
             SetupManagers();
             SetupGameplayScene();
-            //EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
         }
 
         private void SetupManagers()
@@ -58,11 +50,6 @@ namespace Assets.Infrastructure
             _effectsManager = new EffectsManager(_factoriesManager);
             _ballManager = new BallManager(_ballParameters, _effectsManager);
 
-
-            //TODO: REMOVE LATER
-            //_gameRules.Init(GameDifficulty.Easy);
-            //_gameRules.SetDifficultySettings();
-
             _rulesTracker = GetComponent<IRulesTracker>();
             _rulesTracker.Init(_gameRules);
         }
@@ -71,22 +58,23 @@ namespace Assets.Infrastructure
         {
             _uiManager = _canvas.AddComponent<GameplayUIManager>();
             _uiManager.Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
-            //_canvas.AddComponent<UIManager>().Init(_assetRefs, _mainCamera, _factoriesManager, _gameRules.TargetScore, _gameRules.MaxMoves, _gameRules.TimeLimit);
         }
 
         private void TargetScoreReached(BaseEventParams eventParams)
         {
+            //for the end of game popup
             _playerWon = true;
         }
 
         private void GameOverTrigger(BaseEventParams eventParams)
         {
+            //to ensure only 1 process runs
             if (_gameOverSequenceStarted)
                 return;
 
             _gameOverSequenceStarted = true;
             _finalScore = ((GameOverEventParams)eventParams).FinalScore;
-            SaveGameData();            
+            SaveGameData();
             StartCoroutine(GameOverSequence());
         }
 
@@ -99,12 +87,26 @@ namespace Assets.Infrastructure
 
         private void ReplayLevel(BaseEventParams eventParams)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            try
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load gameplay scene: {e.Message}");
+            }
         }
 
         private void BackToMainMenu(BaseEventParams eventParams)
         {
-            SceneManager.LoadScene("MainMenu");
+            try
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load gameplay scene: {e.Message}");
+            }
         }
 
         private void SaveGameData()
@@ -115,7 +117,7 @@ namespace Assets.Infrastructure
             {
                 PlayerPrefs.SetInt("HighScore", _finalScore);
                 PlayerPrefs.Save();
-            }                
+            }
         }
 
         private void OnDestroy()
@@ -126,51 +128,5 @@ namespace Assets.Infrastructure
             EventManager.Instance.Unsubscribe(TypeOfEvent.ReturnToMainMenu, BackToMainMenu);
             _ballManager.Unsubscribe();
         }
-
-
-        //FOR TESTING
-        //public void OnBallClicked(BaseEventParams eventParams)
-        //{
-        //    var clickedBall = ((BallClickEventParams)eventParams).Ball;
-        //    circleRadius = clickedBall.Collider.radius * _ballParameters.SpecialBallExplosionRadius;
-        //    circlePosition = clickedBall.Position;
-        //    showCircle = true;
-        //}
-
-
-        //private void Update()
-        //{
-        //    if (showCircle)
-        //    {
-        //        DrawCircle(circlePosition, circleRadius);
-        //    }
-        //}
-
-        //FOR TESTING
-        //private void DrawCircle(Vector3 position, float radius)
-        //{
-        //    int segments = 36; // More segments = smoother circle
-        //    float angle = 360f / segments;
-
-        //    for (int i = 0; i < segments; i++)
-        //    {
-        //        float currentAngle = angle * i * Mathf.Deg2Rad;
-        //        float nextAngle = angle * (i + 1) * Mathf.Deg2Rad;
-
-        //        Vector3 currentPoint = position + new Vector3(
-        //            Mathf.Cos(currentAngle) * radius,
-        //            Mathf.Sin(currentAngle) * radius,
-        //            0
-        //        );
-
-        //        Vector3 nextPoint = position + new Vector3(
-        //            Mathf.Cos(nextAngle) * radius,
-        //            Mathf.Sin(nextAngle) * radius,
-        //            0
-        //        );
-
-        //        Debug.DrawLine(currentPoint, nextPoint, Color.black);
-        //    }
-        //}
     }
 }

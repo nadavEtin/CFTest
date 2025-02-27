@@ -42,11 +42,6 @@ namespace Assets.GameRules
             SetDifficultySettings();
         }
 
-        //public void Init(GameDifficulty difficulty)
-        //{
-        //    _currentDifficulty = difficulty;
-        //}
-
         //sets the game rules based on the current difficulty. default is Normal
         public void SetDifficultySettings()
         {
@@ -76,25 +71,4 @@ namespace Assets.GameRules
             SetDifficultySettings();
         }
     }
-
-    //public struct GameDifficulty
-    //{
-    //    public int TimeLimit;
-    //    public int TargetScore;
-    //    public int MaxMoves;
-    //}
-
-    //public struct NormalDifficulty
-    //{
-    //    public const int TimeLimit = 30;
-    //    public const int TargetScore = 400;
-    //    public const int MaxMoves = 20;
-    //}
-
-    //public struct HardDifficulty
-    //{
-    //    public const int TimeLimit = 25;
-    //    public const int TargetScore = 500;
-    //    public const int MaxMoves = 15;
-    //}
 }

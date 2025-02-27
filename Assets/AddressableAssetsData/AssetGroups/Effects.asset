@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Effects
+  m_EditorClassIdentifier: 
+  m_GroupName: Effects
+  m_Data:
+    m_SerializedData: []
+  m_GUID: e5710dca749d76c4d8f465f0c484033d
+  m_SerializeEntries:
+  - m_GUID: 004eeaa9e00bab7479757735ef4dec8c
+    m_Address: Assets/Effects/green.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effects
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 093a32ade00fda74bbc2f8a7e57c32bf
+    m_Address: Assets/Effects/blue.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effects
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b615dac22795e847bfdcf9c79aab7d6
+    m_Address: Assets/Effects/teal.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effects
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e38bb88364b8a424caa9494af2b5d543
+    m_Address: Assets/Effects/EnergyExplosionYellow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effects
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5ca3389658c95b4ca66e89989affce3
+    m_Address: Assets/Effects/lightBlue.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Effects
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 9cb9bc97e8b3869488a5472977f17652, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 67131ad5231ce3a4bafb34a183e61429, type: 2}
+    - {fileID: 11400000, guid: 498575c74a9e6ff4cbda73f6b006b6f3, type: 2}

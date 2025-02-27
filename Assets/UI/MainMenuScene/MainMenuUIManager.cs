@@ -14,13 +14,14 @@ namespace Assets.UI.MenuScene
 
         private void Awake()
         {
+            //load previous high score, 0 for default
             var highScore = PlayerPrefs.GetInt("HighScore", 0);
             highScoreText.text = $"High Score: {highScore}";
         }
 
         public void OnSettingsButtonClick()
         {
-                settingsMenu.SetActive(true);
+            settingsMenu.SetActive(true);
         }
 
         public void OnPlayButtonClick()

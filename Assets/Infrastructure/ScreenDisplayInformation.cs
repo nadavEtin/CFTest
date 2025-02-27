@@ -45,7 +45,7 @@ public class ScreenDisplayInformation
 
     private void CalculateScreenBounds()
     {
-        // Get the main camera
+        //get the main camera
         Camera mainCamera = Camera.main;
 
         if (mainCamera == null)
@@ -54,11 +54,11 @@ public class ScreenDisplayInformation
             return;
         }
 
-        // Calculate screen bounds in world coordinates
+        //calculate screen bounds in world coordinates
         Vector2 screenBottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
         Vector2 screenTopRight = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
 
-        // Set the border values
+        //set the border values
         _leftBorder = screenBottomLeft.x;
         _rightBorder = screenTopRight.x;
         _bottomBorder = screenBottomLeft.y;
@@ -70,14 +70,13 @@ public class ScreenDisplayInformation
         var canvasRect = _mainUiCanvas.GetComponent<RectTransform>();
         var canvasSize = canvasRect.rect.size;
 
-        // Calculate edges relative to center (since anchoredPosition is relative)
+        //calculate edges relative to center
         _leftCanvasBorder = -canvasSize.x / 2;
         _rightCanvasBorder = canvasSize.x / 2;
         _topCanvasBorder = canvasSize.y / 2;
         _bottomCanvasBorder = -canvasSize.y / 2;
     }
 
-    // Public method to update bounds
     public static void UpdateScreenBounds()
     {
         Instance.CalculateScreenBounds();

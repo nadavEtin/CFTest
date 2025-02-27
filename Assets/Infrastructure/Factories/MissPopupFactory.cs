@@ -1,5 +1,4 @@
-﻿using Assets.Infrastructure.ObjectPool;
-using GameCore.Factories;
+﻿using Assets.Infrastructure.ObjectPoolNS;
 using UnityEngine;
 
 namespace Assets.Infrastructure.Factories

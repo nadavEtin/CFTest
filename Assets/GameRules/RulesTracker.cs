@@ -5,11 +5,8 @@ namespace Assets.GameRules
 {
     public class RulesTracker : MonoBehaviour, IRulesTracker
     {
-        //public bool ScoreTargetReached => _scoreTargetReached;
-
         private GameRulesScriptableObject _gameRules;
         private int _currentScore, _targetScore, _tapsLeft, _timeLeft;
-        //private bool _scoreTargetReached;
 
         public void Init(GameRulesScriptableObject gameRules)
         {
@@ -43,6 +40,7 @@ namespace Assets.GameRules
             }
             else
             {
+                //trigger game over event
                 EventManager.Instance.Publish(TypeOfEvent.TimeUpdate, new TimeUpdateEventParams(0));
                 EventManager.Instance.Publish(TypeOfEvent.GameOver, new GameOverEventParams(_currentScore));
             }
@@ -51,7 +49,7 @@ namespace Assets.GameRules
         private void MovesUpdate(BaseEventParams eventParams)
         {
             _tapsLeft -= 1;
-            if (_tapsLeft <= 0)            
+            if (_tapsLeft <= 0)         //trigger game over event
                 EventManager.Instance.Publish(TypeOfEvent.GameOver, new GameOverEventParams(_currentScore));            
         }
 
@@ -61,7 +59,6 @@ namespace Assets.GameRules
             _currentScore += scoreParams.Score;
             if (_currentScore >= _targetScore)
                 EventManager.Instance.Publish(TypeOfEvent.ScoreTargetReached, new EmptyParams());
-            //_scoreTargetReached = true;
         }
 
         private void OnDestroy()

@@ -1,4 +1,5 @@
 using Assets.GameRules;
+using Assets.Infrastructure.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,6 @@ namespace Assets.GameplayObjects.Balls
     [CreateAssetMenu(fileName = "BallParameters", menuName = "ScriptableObjects/Ball parameters")]
     public class BallParametersScriptableObject : ScriptableObject
     {
-        [HideInInspector] public GameDifficulty ChosenDifficulty;
-
         #region Public getters
 
         public float SameTypeProbability => _sameTypeProbability;
@@ -39,8 +38,9 @@ namespace Assets.GameplayObjects.Balls
         [SerializeField] private float _specialBallExplosionRadius;
 
         [Tooltip("The probability of a new ball being spawned in a group to be the same type(color) as the previous one.\n" +
-            "Above 0.5 makes it more likely, below 0.5 is less likely.")]
-        [SerializeField] private float _sameTypeProbability;
+            "Above 0.5 makes it more likely, below 0.5 is less likely.")]        
+        [SerializeField] private float _easySameType, _normalSameType, _hardSameType;
+        private float _sameTypeProbability;
 
         private List<BallTypeParameters> _cachedNormalBallTypes;
 
@@ -58,6 +58,33 @@ namespace Assets.GameplayObjects.Balls
                 }
 
                 return _cachedNormalBallTypes;
+            }
+        }
+
+        private void OnEnable()
+        {
+            //set to neutral as the default
+            _sameTypeProbability = 0.5f;
+            EventManager.Instance.Subscribe(TypeOfEvent.DifficultySelection, DifficultyChange);
+        }
+
+        private void DifficultyChange(BaseEventParams eventParams)
+        {
+            var newDiff = ((DifficultySeletionEventParams)eventParams).CurrentDifficulty;
+
+            switch (newDiff)
+            {
+                case GameDifficulty.Easy:
+                    _sameTypeProbability = _easySameType;
+                    break;
+                case GameDifficulty.Normal:
+                    _sameTypeProbability = _normalSameType;
+                    break;
+                case GameDifficulty.Hard:
+                    _sameTypeProbability = _hardSameType;
+                    break;
+                default:
+                    break;
             }
         }
 

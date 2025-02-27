@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Infrastructure.Events;
-using Events;
+﻿using Assets.Infrastructure.Events;
 
 namespace Assets.GameplayObjects.Balls
 {
-	public class SpecialBall : BaseBall
-	{
+    //exploding ball element
+    public class SpecialBall : BaseBall
+    {
         public override void Init(BallTypeParameters typeParams)
         {
             _type = typeParams;
@@ -21,5 +19,5 @@ namespace Assets.GameplayObjects.Balls
         {
             EventManager.Instance.Publish(TypeOfEvent.BallClick, new BallClickEventParams(this));
         }
-	}
+    }
 }

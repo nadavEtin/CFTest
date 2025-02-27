@@ -1,6 +1,5 @@
 ﻿using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,8 +22,6 @@ namespace Assets.GameplayObjects.Balls
             _ballParams = ballParams;
             _normalBallTypes = _ballParams.NormalBallTypes;
             EventsSubscribe();
-            //LevelStartSpawnBalls(_ballParams.StartingLevelBallCount);
-            
         }
 
         private void EventsSubscribe()
@@ -34,6 +31,7 @@ namespace Assets.GameplayObjects.Balls
             EventManager.Instance.Subscribe(TypeOfEvent.GameStart, LevelStartSpawnBalls);
         }
 
+        //spawns the initial balls at the start of the level
         public void LevelStartSpawnBalls(BaseEventParams eventParams)
         {
             var spawnRadius = 0.2f;
@@ -50,6 +48,7 @@ namespace Assets.GameplayObjects.Balls
             }
         }
 
+        //replaces the balls popped in a match
         public void SpawnReplacementBalls(BaseEventParams eventParams)
         {
             var numberOfBalls = ((SpawnNormalBallsEventParams)eventParams).BallAmount;
@@ -75,6 +74,7 @@ namespace Assets.GameplayObjects.Balls
             return ball;
         }
 
+        //spawns the special exploding ball at the position of the normal ball clicked
         private void SpawnSpecialBalls(BaseEventParams eventParams)
         {
             var specialBallParams = (SpawnSpecialBallsEventParams)eventParams;
@@ -98,7 +98,7 @@ namespace Assets.GameplayObjects.Balls
             return _lastAssignedType.Value;
         }
 
-        //force the next ball to be different from the last one
+        //force the next ball to be a different color from the last one
         private BallTypeParameters GetRandomType()
         {
             List<BallTypeParameters> availableTypes = new List<BallTypeParameters>(_normalBallTypes);

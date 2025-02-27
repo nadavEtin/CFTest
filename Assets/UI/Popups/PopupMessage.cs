@@ -4,54 +4,60 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupMessage : MonoBehaviour
+namespace Assets.UI.Popups
 {
-    public TextMeshProUGUI PopupText;
-
-    [SerializeField] private Button _confirmButton;
-    [SerializeField] private Button _replayButton;
-    [SerializeField] private RectTransform _rectTransform;
-
-    private Tween _scaleTween;
-    private float animationDuration = 0.75f;
-    private Vector3 _normalScale = new Vector3(1, 1, 1);
-    private Vector3 _smallScale = new Vector3(0.01f, 0.01f, 0.01f);
-
-    public void ShowWindow()
+    //class for both the start game and game over message
+    public class PopupMessage : MonoBehaviour
     {
-        _rectTransform.localScale = _smallScale;
+        public TextMeshProUGUI PopupText;
 
-        _scaleTween = _rectTransform.DOScale(_normalScale, animationDuration)
-            .SetEase(Ease.OutBack);
+        [SerializeField] private Button _confirmButton;
+        [SerializeField] private Button _replayButton;
+        [SerializeField] private RectTransform _rectTransform;
+
+        private Tween _scaleTween;
+        private float animationDuration = 0.75f;
+        private Vector3 _normalScale = new Vector3(1, 1, 1);
+        private Vector3 _smallScale = new Vector3(0.01f, 0.01f, 0.01f);
+
+        public void ShowWindow()
+        {
+            _rectTransform.localScale = _smallScale;
+
+            _scaleTween = _rectTransform.DOScale(_normalScale, animationDuration)
+                .SetEase(Ease.OutBack);
+        }
+
+        public void HideWindow()
+        {
+            _rectTransform.localScale = _normalScale;
+
+            _scaleTween = _rectTransform.DOScale(_smallScale, animationDuration)
+                .SetEase(Ease.InSine)
+                .OnComplete(() => HideAnimationDone()); //animation finish callback
+        }
+
+        public void ConfirmButtonClick()
+        {
+            HideWindow();
+        }
+
+        public void ReplayButtonClick()
+        {
+            EventManager.Instance.Publish(TypeOfEvent.ReplayLevel, new EmptyParams());
+        }
+
+        public void BackButtonClick()
+        {
+            EventManager.Instance.Publish(TypeOfEvent.ReturnToMainMenu, new EmptyParams());
+        }
+
+        private void HideAnimationDone()
+        {
+            gameObject.SetActive(false);
+            EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
+        }
     }
 
-    public void HideWindow()
-    {
-        _rectTransform.localScale = _normalScale;
-
-        _scaleTween = _rectTransform.DOScale(_smallScale, animationDuration)
-            .SetEase(Ease.InSine)
-            .OnComplete(() => HideAnimationDone()); //animation finish callback
-    }
-
-    public void ConfirmButtonClick()
-    {
-        HideWindow();
-    }
-
-    public void ReplayButtonClick()
-    {
-        EventManager.Instance.Publish(TypeOfEvent.ReplayLevel, new EmptyParams());
-    }
-
-    public void BackButtonClick()
-    {
-        
-    }
-
-    private void HideAnimationDone()
-    {
-        gameObject.SetActive(false);
-        EventManager.Instance.Publish(TypeOfEvent.GameStart, new EmptyParams());
-    }
 }
+

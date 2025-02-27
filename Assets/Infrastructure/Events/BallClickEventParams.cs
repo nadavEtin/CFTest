@@ -1,4 +1,6 @@
-﻿namespace Assets.Infrastructure.Events
+﻿using Assets.GameplayObjects.Balls;
+
+namespace Assets.Infrastructure.Events
 {
     public class BallClickEventParams : BaseEventParams
     {

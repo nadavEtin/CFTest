@@ -15,4 +15,4 @@ MonoBehaviour:
   _normalBallPop1: {fileID: 3508821310421704902, guid: e5ca3389658c95b4ca66e89989affce3, type: 3}
   _normalBallPop2: {fileID: 7327572188246499137, guid: 004eeaa9e00bab7479757735ef4dec8c, type: 3}
   _normalBallPop3: {fileID: 1329242627158359281, guid: 3b615dac22795e847bfdcf9c79aab7d6, type: 3}
-  _specialBallPop: {fileID: 0}
+  _specialBallPop: {fileID: 7476716187462679552, guid: e38bb88364b8a424caa9494af2b5d543, type: 3}
