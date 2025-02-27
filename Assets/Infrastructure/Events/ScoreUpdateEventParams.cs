@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Utility;
-
-namespace Assets.Infrastructure.Events
+﻿namespace Assets.Infrastructure.Events
 {
     public class ScoreUpdateEventParams : BaseEventParams
     {

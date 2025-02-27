@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using Assets.GameRules;
+using Assets.Infrastructure.Events;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour
 {
     private bool _isMusicOn = true;
-    private enum Difficulty { Easy, Normal, Hard }
-    private Difficulty _currentDifficulty = Difficulty.Normal;
+    private const string _playerPrefsDifficulty = "GameDifficulty";
+    private const string _playerPrefsMusicSetting = "MusicEnabled";
+    private GameDifficulty _currentDifficulty = GameDifficulty.Normal;
 
     [SerializeField] private GameObject _settingsPanel;
 
@@ -24,11 +27,11 @@ public class SettingsMenu : MonoBehaviour
     private void LoadSettings()
     {
         //load music setting (default to on if not saved)
-        _isMusicOn = PlayerPrefs.GetInt("MusicEnabled", 1) == 1;
+        _isMusicOn = PlayerPrefs.GetInt(_playerPrefsMusicSetting, 1) == 1;
         UpdateMusicVisuals();
 
         //load difficulty setting (default to normal if not saved)
-        _currentDifficulty = (Difficulty)PlayerPrefs.GetInt("Difficulty", (int)Difficulty.Normal);
+        _currentDifficulty = (GameDifficulty)PlayerPrefs.GetInt(_playerPrefsDifficulty, (int)GameDifficulty.Normal);
         UpdateDifficultyVisuals();
     }
 
@@ -41,19 +44,19 @@ public class SettingsMenu : MonoBehaviour
 
     public void OnEasyButtonClick()
     {
-        _currentDifficulty = Difficulty.Easy;
+        _currentDifficulty = GameDifficulty.Easy;
         UpdateDifficultyVisuals();
     }
 
     public void OnNormalButtonClick()
     {
-        _currentDifficulty = Difficulty.Normal;
+        _currentDifficulty = GameDifficulty.Normal;
         UpdateDifficultyVisuals();
     }
 
     public void OnHardButtonClick()
     {
-        _currentDifficulty = Difficulty.Hard;
+        _currentDifficulty = GameDifficulty.Hard;
         UpdateDifficultyVisuals();
     }
 
@@ -90,24 +93,26 @@ public class SettingsMenu : MonoBehaviour
         _hardButton.image.sprite = _whiteBtn;
         switch (_currentDifficulty)
         {
-            case Difficulty.Easy:
+            case GameDifficulty.Easy:
                 _easyButton.image.sprite = _greyBtn; 
                 break;
-            case Difficulty.Normal:
+            case GameDifficulty.Normal:
                 _normalButton.image.sprite = _greyBtn; 
                 break;
-            case Difficulty.Hard:
+            case GameDifficulty.Hard:
                 _hardButton.image.sprite = _greyBtn;
                 break;
         }
 
+        //update the difficulty in the SO
+        EventManager.Instance.Publish(TypeOfEvent.DifficultySelection, new DifficultySeletionEventParams(_currentDifficulty));
         SaveSettings();
     }
 
     private void SaveSettings()
     {
-        PlayerPrefs.SetInt("MusicEnabled", _isMusicOn ? 1 : 0);
-        PlayerPrefs.SetInt("Difficulty", (int)_currentDifficulty);
+        PlayerPrefs.SetInt(_playerPrefsMusicSetting, _isMusicOn ? 1 : 0);
+        PlayerPrefs.SetInt(_playerPrefsDifficulty, (int)_currentDifficulty);
         PlayerPrefs.Save();
     }
 }

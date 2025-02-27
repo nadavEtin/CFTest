@@ -3,7 +3,6 @@ using Assets.GameplayObjects.Balls;
 using Assets.GameRules;
 using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using Assets.Scripts.Utility;
 using GameCore.UI;
 using System.Collections;
 using UnityEngine;
@@ -42,6 +41,7 @@ namespace Assets.Infrastructure
             EventManager.Instance.Subscribe(TypeOfEvent.GameOver, GameOverTrigger);
             EventManager.Instance.Subscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
             EventManager.Instance.Subscribe(TypeOfEvent.ReplayLevel, ReplayLevel);
+            EventManager.Instance.Subscribe(TypeOfEvent.ReturnToMainMenu, BackToMainMenu);
 
             SetupManagers();
             SetupGameplayScene();
@@ -60,8 +60,8 @@ namespace Assets.Infrastructure
 
 
             //TODO: REMOVE LATER
-            _gameRules.Init(GameDifficulty.Easy);
-            _gameRules.SetDifficultySettings();
+            //_gameRules.Init(GameDifficulty.Easy);
+            //_gameRules.SetDifficultySettings();
 
             _rulesTracker = GetComponent<IRulesTracker>();
             _rulesTracker.Init(_gameRules);
@@ -102,6 +102,11 @@ namespace Assets.Infrastructure
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
+        private void BackToMainMenu(BaseEventParams eventParams)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+
         private void SaveGameData()
         {
             //save game score if its the highest
@@ -118,6 +123,7 @@ namespace Assets.Infrastructure
             EventManager.Instance.Unsubscribe(TypeOfEvent.GameOver, GameOverTrigger);
             EventManager.Instance.Unsubscribe(TypeOfEvent.ScoreTargetReached, TargetScoreReached);
             EventManager.Instance.Unsubscribe(TypeOfEvent.ReplayLevel, ReplayLevel);
+            EventManager.Instance.Unsubscribe(TypeOfEvent.ReturnToMainMenu, BackToMainMenu);
             _ballManager.Unsubscribe();
         }
 

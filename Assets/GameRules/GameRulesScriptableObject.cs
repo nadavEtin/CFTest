@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Infrastructure.Events;
+using UnityEngine;
 
 namespace Assets.GameRules
 {
@@ -30,12 +31,21 @@ namespace Assets.GameRules
 
         [HideInInspector] public int TimeLimit, TargetScore, MaxMoves;
 
-        
-
-        public void Init(GameDifficulty difficulty)
+        private void OnEnable()
         {
-            _currentDifficulty = difficulty;
+            EventManager.Instance.Subscribe(TypeOfEvent.DifficultySelection, UpdateDifficulty);
         }
+
+        private void UpdateDifficulty(BaseEventParams eventParams)
+        {
+            _currentDifficulty = ((DifficultySeletionEventParams)eventParams).CurrentDifficulty;
+            SetDifficultySettings();
+        }
+
+        //public void Init(GameDifficulty difficulty)
+        //{
+        //    _currentDifficulty = difficulty;
+        //}
 
         //sets the game rules based on the current difficulty. default is Normal
         public void SetDifficultySettings()

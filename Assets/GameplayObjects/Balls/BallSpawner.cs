@@ -1,6 +1,5 @@
 ﻿using Assets.Infrastructure.Events;
 using Assets.Infrastructure.Factories;
-using Assets.Scripts.Utility;
 using Events;
 using System.Collections.Generic;
 using UnityEngine;

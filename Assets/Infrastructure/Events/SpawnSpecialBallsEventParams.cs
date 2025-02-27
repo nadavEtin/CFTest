@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Utility;
+﻿using Assets.Infrastructure.Events;
 using UnityEngine;
 
 namespace Events

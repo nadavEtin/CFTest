@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Assets.Infrastructure.Events
@@ -10,6 +9,7 @@ namespace Assets.Infrastructure.Events
         GameOver,
         ReplayLevel,
         ReturnToMainMenu,
+        DifficultySelection,
 
         
         SpawnNormalBalls,

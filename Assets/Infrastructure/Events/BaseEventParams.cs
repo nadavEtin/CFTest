@@ -1,6 +1,4 @@
-﻿using Assets.Infrastructure.Events;
-
-namespace Assets.Scripts.Utility
+﻿namespace Assets.Infrastructure.Events
 {
     public abstract class BaseEventParams
     {
